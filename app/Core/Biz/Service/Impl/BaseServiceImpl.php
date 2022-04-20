@@ -1,6 +1,6 @@
 <?php
 /*
- * Sunny 2021/11/24 下午5:37
+ * Sunny 2022/4/20 下午4:09
  * ogg sit down and start building bugs.
  * Author: Ogg <baoziyoo@gmail.com>.
  */
@@ -34,7 +34,6 @@ class BaseServiceImpl implements BaseService
         $this->container = $container;
     }
 
-
     public function create(array $params)
     {
         $dao = new $this->dao();
@@ -42,6 +41,16 @@ class BaseServiceImpl implements BaseService
         $dao->save();
 
         return $dao;
+    }
+
+    public function getByCache(int $id)
+    {
+        return $this->dao::findFromCache($id);
+    }
+
+    public function findByCache(array $ids)
+    {
+        return $this->dao::findManyFromCache($ids);
     }
 
     protected function getLogService(): LogService

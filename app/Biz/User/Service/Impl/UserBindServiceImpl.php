@@ -1,6 +1,6 @@
 <?php
 /*
- * Sunny 2022/4/19 下午5:53
+ * Sunny 2022/4/20 下午4:09
  * ogg sit down and start building bugs.
  * Author: Ogg <baoziyoo@gmail.com>.
  */
@@ -22,7 +22,7 @@ class UserBindServiceImpl extends BaseServiceImpl implements UserBindService
     {
         $userBindExists = UserBindDaoImpl::where('fromId', $params['fromId'])->exists();
         if ($userBindExists) {
-            UserBindDaoImpl::where('fromId', $params['fromId'])->update(['fromKey' => $fromKey]);
+            UserBindDaoImpl::query()->where('fromId', $params['fromId'])->update(['fromKey' => $fromKey]);
             return true;
         }
 

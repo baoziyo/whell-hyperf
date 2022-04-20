@@ -1,6 +1,6 @@
 <?php
 /*
- * Sunny 2021/11/30 下午4:43
+ * Sunny 2022/4/20 下午4:09
  * ogg sit down and start building bugs.
  * Author: Ogg <baoziyoo@gmail.com>.
  */
@@ -15,4 +15,6 @@ use App\Core\Biz\Service\BaseService;
 interface RoleService extends BaseService
 {
     public function get(int $id): RoleDaoImpl;
+
+    public function isPermission(int $roleId, string $uri): void;
 }

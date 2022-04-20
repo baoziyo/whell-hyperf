@@ -1,6 +1,6 @@
 <?php
 /*
- * Sunny 2021/11/30 下午4:43
+ * Sunny 2022/4/20 下午4:09
  * ogg sit down and start building bugs.
  * Author: Ogg <baoziyoo@gmail.com>.
  */
@@ -11,6 +11,7 @@ namespace App\Biz\Role\Service\Impl;
 
 use App\Biz\Role\Dao\RoleDaoImpl;
 use App\Biz\Role\Exception\RoleException;
+use App\Biz\Role\Service\RoleRbacNodeService;
 use App\Biz\Role\Service\RoleService;
 use App\Core\Biz\Service\Impl\BaseServiceImpl;
 
@@ -29,18 +30,18 @@ class RoleServiceImpl extends BaseServiceImpl implements RoleService
         return $role;
     }
 
-    public function isPermission($roleId, $name): void
+    public function isPermission(int $roleId, string $uri): void
     {
         $role = $this->get($roleId);
-
+        $rbacNodes = $this->getRbacNodeService()->findByCache($role['data']);
+        $rbacNodeLinks = array_column($rbacNodes, null, 'link');
+        if (!in_array($uri, $rbacNodeLinks, true)) {
+            throw new RoleException(RoleException::NOT_FOUND);
+        }
     }
 
-    private function getMenus(): array
+    private function getRbacNodeService(): RoleRbacNodeService
     {
-        $adminMenu = $this->biz->config->get('admin_menu', []);
-        $adminMenu = array_column($adminMenu, null, 'code');
-        $menu = $this->biz->config->get('menu', []);
-        $menu = array_column($menu, null, 'code');
-        return ['adminMenu' => $adminMenu, 'menu' => $menu];
+        return $this->biz->getService('Role:RoleRbacNode');
     }
 }

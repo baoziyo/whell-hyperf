@@ -1,6 +1,6 @@
 <?php
 /*
- * Sunny 2021/3/10 下午2:22
+ * Sunny 2022/4/20 下午4:09
  * ogg sit down and start building bugs.
  * Author: Ogg <baoziyoo@gmail.com>.
  */
@@ -21,4 +21,9 @@ class RoleException extends BaseErrorException
      * @Tip("找不到该权限组.")
      */
     public const NOT_FOUND = 500002000;
+
+    /**
+     * @Tip("暂无此操作权限.")
+     */
+    public const NOT_PERMISSION = 500002001;
 }

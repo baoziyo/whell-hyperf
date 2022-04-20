@@ -1,4 +1,9 @@
 <?php
+/*
+ * Sunny 2022/4/20 下午4:09
+ * ogg sit down and start building bugs.
+ * Author: Ogg <baoziyoo@gmail.com>.
+ */
 
 declare (strict_types=1);
 
@@ -16,6 +21,8 @@ use App\Core\Biz\Dao\BaseDaoImpl;
 class TokenDaoImpl extends BaseDaoImpl
 {
     protected $table = 'token';
+    public const CREATED_AT = null;
+    public const UPDATED_AT = null;
 
     protected $fillable = [
         'key', 'value', 'expires', 'expiresTime', 'createdTime'

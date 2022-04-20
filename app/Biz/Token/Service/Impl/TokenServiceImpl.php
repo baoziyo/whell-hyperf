@@ -1,6 +1,6 @@
 <?php
 /*
- * Sunny 2022/4/19 上午10:44
+ * Sunny 2022/4/20 下午4:09
  * ogg sit down and start building bugs.
  * Author: Ogg <baoziyoo@gmail.com>.
  */
@@ -32,18 +32,20 @@ class TokenServiceImpl extends BaseServiceImpl implements TokenService
 
     public function updateToken(string $key, string $value, int $expires): bool
     {
-        $token = TokenDaoImpl::where('key', $key)->first();
-        if ($token === null) {
+        $token = TokenDaoImpl::where('key', $key)->value('id');
+        if ($token === '') {
             $this->createToken($key, $value, $expires);
             return true;
         }
 
-        TokenDaoImpl::where('key', $key)->update([
+        $token = TokenDaoImpl::query()->find($token);
+        $token->fill([
             'value' => $value,
             'expires' => $expires,
             'expiresTime' => time() + $expires,
             'createdTime' => time(),
         ]);
+        $token->save();
 
         return true;
     }

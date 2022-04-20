@@ -1,6 +1,6 @@
 <?php
 /*
- * Sunny 2021/11/24 下午5:38
+ * Sunny 2022/4/20 下午4:09
  * ogg sit down and start building bugs.
  * Author: Ogg <baoziyoo@gmail.com>.
  */
@@ -8,8 +8,11 @@ declare(strict_types=1);
 
 namespace App\Middleware;
 
+use App\Biz\Role\Service\RoleService;
 use App\Biz\User\Service\TokenService;
+use App\Biz\User\Service\UserService;
 use App\Core\Biz\Container\Biz;
+use App\Core\Biz\Service\BaseService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface as HttpResponse;
@@ -46,13 +49,8 @@ class FirewallMiddleware implements MiddlewareInterface
 
     // eg: '/^\/product$\??(.*)/',
     protected $whitelist = [
-        'POST' => [
-            '/^\/login$\??(.*)/',
-            '/^\/login\/wechat$\??(.*)/',
-        ],
-        'GET' => [
-            '/^\/captcha$\??(.*)/',
-        ],
+        'POST' => [],
+        'GET' => [],
         'PATCH' => [],
         'DELETE' => [],
     ];
@@ -80,6 +78,14 @@ class FirewallMiddleware implements MiddlewareInterface
         $info = $this->getTokenService()->validate($type, $this->request);
         Context::set('user', Json::encode($info));
 
+        $uri = parse_url($request->url())['path'];
+        if (!empty($uri) && preg_match('/^\/admin(.*)/', $uri)) {
+            $user = $this->getUserService()->getByCache($info['id']);
+            if ($user['isAdmin'] !== BaseService::ENABLED) {
+                $this->getRoleService()->isPermission($user['role'], $uri);
+            }
+        }
+
         return $handler->handle($request);
     }
 
@@ -87,7 +93,11 @@ class FirewallMiddleware implements MiddlewareInterface
     {
         foreach ($this->whitelist as $method => $whitelist) {
             foreach ($whitelist as $uri) {
-                if ($this->request->getMethod() === $method && !empty(parse_url($url)['path']) && preg_match($uri, parse_url($url)['path'])) {
+                if ($this->request->getMethod() === $method &&
+                    !empty(parse_url($url)['path']) &&
+                    preg_match($uri, parse_url($url)['path']) &&
+                    preg_match('/^\/admin(.*)/', parse_url($url)['path'])
+                ) {
                     return true;
                 }
             }
@@ -99,5 +109,15 @@ class FirewallMiddleware implements MiddlewareInterface
     private function getTokenService(): TokenService
     {
         return $this->biz->getService('User:Token');
+    }
+
+    private function getRoleService(): RoleService
+    {
+        return $this->biz->getService('Role:Role');
+    }
+
+    private function getUserService(): UserService
+    {
+        return $this->biz->getService('User:User');
     }
 }

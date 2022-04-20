@@ -1,6 +1,6 @@
 <?php
 /*
- * Sunny 2021/11/30 下午4:45
+ * Sunny 2022/4/20 下午4:09
  * ogg sit down and start building bugs.
  * Author: Ogg <baoziyoo@gmail.com>.
  */
@@ -30,7 +30,7 @@ use Hyperf\Snowflake\Concern\Snowflake;
  * @property string $updatedTime
  * @property string $deletedTime
  */
-class RoleRbacNodeImpl extends BaseDaoImpl
+class RoleRbacNodeDaoImpl extends BaseDaoImpl
 {
     use SoftDeletes, Snowflake;
 
