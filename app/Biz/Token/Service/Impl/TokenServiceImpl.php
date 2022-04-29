@@ -52,16 +52,12 @@ class TokenServiceImpl extends BaseServiceImpl implements TokenService
 
     public function createToken(string $key, string $value, int $expires): TokenDaoImpl
     {
-        $dao = new TokenDaoImpl();
-        $dao->fill([
+        return $this->create([
             'key' => $key,
             'value' => $value,
             'expires' => $expires,
             'expiresTime' => time() + $expires,
             'createdTime' => time(),
         ]);
-        $dao->save();
-
-        return $dao;
     }
 }

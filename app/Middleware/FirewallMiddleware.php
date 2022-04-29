@@ -26,29 +26,19 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class FirewallMiddleware implements MiddlewareInterface
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    protected ContainerInterface $container;
 
-    /**
-     * @var RequestInterface
-     */
-    protected $request;
+    protected RequestInterface $request;
 
-    /**
-     * @var HttpResponse
-     */
-    protected $response;
+    protected HttpResponse $response;
 
     /**
      * @Inject
-     * @var Biz
      */
-    protected $biz;
+    protected Biz $biz;
 
-    // eg: '/^\/product$\??(.*)/',
-    protected $whitelist = [
+    // eg: '/^\/product$\??(.*)/'
+    protected array $whitelist = [
         'POST' => [],
         'GET' => [],
         'PATCH' => [],

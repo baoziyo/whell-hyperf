@@ -20,9 +20,8 @@ class WechatClient
 {
     /**
      * @Inject
-     * @var Biz
      */
-    protected $biz;
+    protected Biz $biz;
 
     public function codeToSession(string $code, string $appId = null, string $appSecret = null): string
     {

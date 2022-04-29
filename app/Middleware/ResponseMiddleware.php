@@ -24,26 +24,16 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class ResponseMiddleware implements MiddlewareInterface
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    protected ContainerInterface $container;
 
-    /**
-     * @var RequestInterface
-     */
-    protected $request;
+    protected RequestInterface $request;
 
-    /**
-     * @var HttpResponse
-     */
-    protected $response;
+    protected HttpResponse $response;
 
     /**
      * @Inject
-     * @var Biz
      */
-    protected $biz;
+    protected Biz $biz;
 
     public function __construct(ContainerInterface $container, HttpResponse $response, RequestInterface $request)
     {
@@ -121,7 +111,7 @@ class ResponseMiddleware implements MiddlewareInterface
 
     private function getFilterClassName($className): string
     {
-        $class = substr(substr(strrchr($className, '\\'), 1), 0, strlen(substr(strrchr($className, '\\'), 1)) - 10);
+        $class = substr(substr(strrchr($className, '\\'), 1), 0, -10);
         return preg_replace('/[A-Z|a-z]+Controller$/', 'Filter\\' . $class . 'Filter', $className);
     }
 }
