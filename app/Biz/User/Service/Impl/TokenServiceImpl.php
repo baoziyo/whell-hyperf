@@ -43,10 +43,9 @@ class TokenServiceImpl extends BaseServiceImpl implements TokenService
 
     private function getTokenStrategy(string $type): TokenStrategy
     {
-        if (!isset(self::TOKEN_STRATEGY_TYPE[$type])) {
+        if (! isset(self::TOKEN_STRATEGY_TYPE[$type])) {
             throw new TokenException(TokenException::TOKEN_TYPE_ERROR);
         }
         return make(self::TOKEN_STRATEGY_TYPE[$type]);
     }
 }
-

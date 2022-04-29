@@ -5,12 +5,10 @@
  * Author: Ogg <baoziyoo@gmail.com>.
  */
 
-
 declare(strict_types=1);
 
 namespace App\Biz\Wechat\Client;
 
-use App\Biz\User\Service\UserBindService;
 use App\Biz\Wechat\Exception\WechatException;
 use App\Biz\Wechat\Service\WechatService;
 use App\Core\Biz\Container\Biz;
@@ -21,7 +19,7 @@ use Hyperf\Utils\Codec\Json;
 class WechatClient
 {
     /**
-     * @Inject()
+     * @Inject
      * @var Biz
      */
     protected $biz;
@@ -34,7 +32,7 @@ class WechatClient
                 'secret' => $appSecret ?? $this->getWechatService()->getAppSecret(),
                 'js_code' => $code,
                 'grant_type' => 'authorization_code',
-            ]
+            ],
         ]);
 
         $response = Json::decode($response->getBody()->__toString());
@@ -72,7 +70,7 @@ class WechatClient
             ],
             'body' => [
                 'touser' => $userOpenId,
-                'mp_template_msg' => Json::encode($data)
+                'mp_template_msg' => Json::encode($data),
             ],
         ]);
 

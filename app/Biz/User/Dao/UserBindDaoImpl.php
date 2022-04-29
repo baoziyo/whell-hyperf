@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
 
 namespace App\Biz\User\Dao;
 
@@ -20,12 +20,13 @@ use Hyperf\Snowflake\Concern\Snowflake;
  */
 class UserBindDaoImpl extends BaseDaoImpl
 {
-    use SoftDeletes, Snowflake;
+    use SoftDeletes;
+    use Snowflake;
 
     protected $table = 'user_bind';
 
     protected $fillable = [
-        'id', 'userId', 'type', 'fromId', 'fromKey', 'createdTime', 'updatedTime', 'deletedTime'
+        'id', 'userId', 'type', 'fromId', 'fromKey', 'createdTime', 'updatedTime', 'deletedTime',
     ];
 
     protected $casts = [

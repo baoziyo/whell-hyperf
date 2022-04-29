@@ -7,10 +7,18 @@
 declare(strict_types=1);
 
 namespace App\Core\Biz\Service;
+
 interface BaseService
 {
     public const ENABLED = 'enabled';
+
     public const DISABLED = 'disabled';
+
+    public const DOING = 'doing';
+
+    public const FINISHED = 'finished';
+
+    public const FAILED = 'failed';
 
     public function create(array $params);
 
@@ -18,4 +26,3 @@ interface BaseService
 
     public function findByCache(array $ids);
 }
-

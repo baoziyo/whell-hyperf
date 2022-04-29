@@ -9,11 +9,7 @@ declare(strict_types=1);
 
 namespace App\Biz\User\Config;
 
-interface  UserSourceStrategy
+interface UserSourceStrategy
 {
-    /**
-     * @param array $params
-     * @return array
-     */
     public function buildRegisterParams(array $params): array;
 }

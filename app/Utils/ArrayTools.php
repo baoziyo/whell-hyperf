@@ -14,7 +14,7 @@ class ArrayTools extends App
     public static function parts(array $array, array $keys): array
     {
         foreach (array_keys($array) as $key) {
-            if (!in_array($key, $keys)) {
+            if (! in_array($key, $keys)) {
                 unset($array[$key]);
             }
         }
@@ -71,7 +71,7 @@ class ArrayTools extends App
 
     public static function removeVoid($array)
     {
-        if (empty($array) || !is_array($array)) {
+        if (empty($array) || ! is_array($array)) {
             return $array;
         }
 
@@ -91,11 +91,11 @@ class ArrayTools extends App
         if (is_array($array)) {
             $newArray = [];
             foreach ($array as $key => $value) {
-                if ($model && strpos((string)$key, '_')) {
+                if ($model && strpos((string) $key, '_')) {
                     $key = ucwords(str_replace('_', ' ', $key));
                     $key = str_replace(' ', '', lcfirst($key));
                 }
-                if (!$model) {
+                if (! $model) {
                     $key = preg_replace_callback('/([A-Z]+)/', static function ($matches) {
                         return '_' . strtolower($matches[0]);
                     }, $key);

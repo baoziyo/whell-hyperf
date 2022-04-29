@@ -26,73 +26,58 @@ use Psr\Log\LogLevel;
 
 class LogServiceImpl extends BaseServiceImpl implements LogService
 {
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
+    protected LoggerInterface $logger;
 
-    /**
-     * @var Biz
-     */
-    protected $biz;
+    protected Biz $biz;
 
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    protected ContainerInterface $container;
 
-    public function __construct(LoggerFactory $loggerFactory, ContainerInterface $container, Biz $biz)
-    {
-        $this->logger = $loggerFactory->get(env('APP_NAME'));
-        $this->biz = $biz;
-        $this->container = $container;
-    }
-
-    public function emergency($message, $context = [], $sendGaryLog = false): void
+    public function emergency($message, $context = [], $sendGaryLog = true): void
     {
         $this->log(LogLevel::EMERGENCY, $message, $context, $sendGaryLog);
     }
 
-    public function alert($message, $context = [], $sendGaryLog = false): void
+    public function alert($message, $context = [], $sendGaryLog = true): void
     {
         $this->log(LogLevel::ALERT, $message, $context, $sendGaryLog);
     }
 
-    public function critical($message, $context = [], $sendGaryLog = false): void
+    public function critical($message, $context = [], $sendGaryLog = true): void
     {
         $this->log(LogLevel::CRITICAL, $message, $context, $sendGaryLog);
     }
 
-    public function error($message, $context = [], $sendGaryLog = false): void
+    public function error($message, $context = [], $sendGaryLog = true): void
     {
         $this->log(LogLevel::ERROR, $message, $context, $sendGaryLog);
     }
 
-    public function warning($message, $context = [], $sendGaryLog = false): void
+    public function warning($message, $context = [], $sendGaryLog = true): void
     {
         $this->log(LogLevel::WARNING, $message, $context, $sendGaryLog);
     }
 
-    public function notice($message, $context = [], $sendGaryLog = false): void
+    public function notice($message, $context = [], $sendGaryLog = true): void
     {
         $this->log(LogLevel::NOTICE, $message, $context, $sendGaryLog);
     }
 
-    public function info($message, $context = [], $sendGaryLog = false): void
+    public function info($message, $context = [], $sendGaryLog = true): void
     {
         $this->log(LogLevel::INFO, $message, $context, $sendGaryLog);
     }
 
-    public function debug($message, $context = [], $sendGaryLog = false): void
+    public function debug($message, $context = [], $sendGaryLog = true): void
     {
         $this->log(LogLevel::DEBUG, $message, $context, $sendGaryLog);
     }
 
-    public function log($level, $message, $context = [], $sendGaryLog = false): void
+    public function log($level, $message, $context = [], $sendGaryLog = true): void
     {
+        $this->logger = $this->container->get(LoggerFactory::class)->get(env('APP_NAME'));
         $this->logger->log($level, $message, $context);
 
-        if ($sendGaryLog && (bool)env('GRAYLOG', false)) {
+        if ($sendGaryLog && env('GRAYLOG', false)) {
             $message = new CreateGraylogProducer($level, $message, $context);
             $this->biz->getAmqp()->produce($message);
         }
@@ -107,7 +92,7 @@ class LogServiceImpl extends BaseServiceImpl implements LogService
         $text .= 'body:' . Json::encode($request->getParsedBody()) . PHP_EOL;
         $text .= 'response:' . $response->getBody()->getContents() . PHP_EOL;
 
-        if ((bool)env('GRAYLOG', false)) {
+        if ((bool) env('GRAYLOG', false)) {
             $message = new CreateGraylogProducer('info', '请求日志:' . $request->getMethod() . '->' . $request->url(), [
                 'method' => $request->getMethod(),
                 'url' => $request->url(),
@@ -125,7 +110,7 @@ class LogServiceImpl extends BaseServiceImpl implements LogService
 
     public function createGraylog($level, $message, array $context = []): void
     {
-        if ((bool)env('GRAYLOG', false)) {
+        if (env('GRAYLOG', false)) {
             $this->biz->getClient([], false)->post(env('GRAYLOG_DOMAIN', 'http://127.0.0.1') . ':' . env('GRAYLOG_PORT', 12201) . '/gelf', [
                 'json' => [
                     'level' => self::GRAY_LOG_LEVELS[$level],
@@ -133,7 +118,7 @@ class LogServiceImpl extends BaseServiceImpl implements LogService
                     'source' => env('GRAYLOG_SOURCE') ?? gethostname(),
                     'log_source' => env('APP_NAME') . '_' . env('APP_ENV'),
                     'full_message' => Json::encode($context),
-                    'message' => $message . (!empty($context['target']) ? '->#' . $context['target'] : ''),
+                    'message' => $message . (! empty($context['target']) ? '->#' . $context['target'] : ''),
                 ],
             ]);
         }

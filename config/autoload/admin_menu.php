@@ -19,5 +19,5 @@ return [
         'code' => 'admin.role',
         'name' => '权限组',
         'route' => 'admin/route',
-    ]
+    ],
 ];

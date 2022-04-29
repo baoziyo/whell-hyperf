@@ -5,7 +5,7 @@
  * Author: Ogg <baoziyoo@gmail.com>.
  */
 
-declare (strict_types=1);
+declare(strict_types=1);
 
 namespace App\Biz\Token\Dao;
 
@@ -20,12 +20,14 @@ use App\Core\Biz\Dao\BaseDaoImpl;
  */
 class TokenDaoImpl extends BaseDaoImpl
 {
-    protected $table = 'token';
     public const CREATED_AT = null;
+
     public const UPDATED_AT = null;
 
+    protected $table = 'token';
+
     protected $fillable = [
-        'key', 'value', 'expires', 'expiresTime', 'createdTime'
+        'key', 'value', 'expires', 'expiresTime', 'createdTime',
     ];
 
     protected $casts = [

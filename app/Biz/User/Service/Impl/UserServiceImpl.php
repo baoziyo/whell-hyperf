@@ -5,7 +5,6 @@
  * Author: Ogg <baoziyoo@gmail.com>.
  */
 
-
 declare(strict_types=1);
 
 namespace App\Biz\User\Service\Impl;
@@ -43,7 +42,7 @@ class UserServiceImpl extends BaseServiceImpl implements UserService
 
     private function getUserSourceStrategy($type): UserSourceStrategy
     {
-        if (!isset(self::USER_SOURCE_STRATEGY_TYPE[$type])) {
+        if (! isset(self::USER_SOURCE_STRATEGY_TYPE[$type])) {
             throw new UserException(UserException::TOKEN_TYPE_ERROR);
         }
 
@@ -51,7 +50,6 @@ class UserServiceImpl extends BaseServiceImpl implements UserService
     }
 
     /**
-     * @param string $password
      * @return array[eg:password,eg:salt]
      */
     private function generatePassword(string $password): array

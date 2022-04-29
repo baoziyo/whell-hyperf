@@ -31,8 +31,6 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class BizImpl implements Biz
 {
-    protected $serviceDir = 'App\Biz\%s%s\Service\Impl\%sServiceImpl';
-
     /**
      * @Inject
      * @var ConfigInterface
@@ -45,14 +43,16 @@ class BizImpl implements Biz
      */
     public $container;
 
+    protected $serviceDir = 'App\Biz\%s%s\Service\Impl\%sServiceImpl';
+
     public function getVersion(string $appointVersion = ''): string
     {
         if (empty($appointVersion)) {
             $request = make(RequestInterface::class);
-            if (!Context::get(ServerRequestInterface::class) || !$request->hasHeader('version')) {
-                return strtolower((string)env('SYSTEM_API_VERSION', ''));
+            if (! Context::get(ServerRequestInterface::class) || ! $request->hasHeader('version')) {
+                return strtolower((string) env('SYSTEM_API_VERSION', ''));
             }
-            return strtolower((string)$request->header('version'));
+            return strtolower((string) $request->header('version'));
         }
 
         return strtolower($appointVersion);
@@ -84,7 +84,7 @@ class BizImpl implements Biz
         if (Coroutine::inCoroutine()) {
             $handler = make(PoolHandler::class, [
                 'option' => [
-                    'max_connections' => (int)env('GUZZLE_MAX_CONNECTIONS', 50),
+                    'max_connections' => (int) env('GUZZLE_MAX_CONNECTIONS', 50),
                 ],
             ]);
         }
@@ -115,5 +115,10 @@ class BizImpl implements Biz
     public function getAmqp(): Producer
     {
         return make(Producer::class);
+    }
+
+    public function getContainer(): ContainerInterface
+    {
+        return $this->container;
     }
 }

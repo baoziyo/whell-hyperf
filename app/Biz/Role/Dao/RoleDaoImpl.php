@@ -17,14 +17,15 @@ use Hyperf\Snowflake\Concern\Snowflake;
  * @property int $id
  * @property string $name
  * @property string $status
- * @property string $data
+ * @property array $data
  * @property string $createdTime
  * @property string $updatedTime
  * @property string $deletedTime
  */
 class RoleDaoImpl extends BaseDaoImpl
 {
-    use SoftDeletes, Snowflake;
+    use SoftDeletes;
+    use Snowflake;
 
     protected $table = 'role';
 

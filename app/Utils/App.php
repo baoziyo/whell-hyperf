@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /*
  * Sunny 2021/11/23 下午3:35
  * ogg sit down and start building bugs.

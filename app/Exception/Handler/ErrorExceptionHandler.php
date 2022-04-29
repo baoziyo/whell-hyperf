@@ -59,7 +59,7 @@ class ErrorExceptionHandler extends ExceptionHandler
 
         $this->stopPropagation();
 
-        $status = substr((string)$throwable->getCode(), 0, 3);
+        $status = substr((string) $throwable->getCode(), 0, 3);
         $status = $status <= 0 ? 500 : $status;
 
         return $response->withStatus($status)->withAddedHeader('Content-Type', 'application/json')->withBody(new SwooleStream($data));

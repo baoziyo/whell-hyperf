@@ -5,7 +5,6 @@
  * Author: Ogg <baoziyoo@gmail.com>.
  */
 
-
 declare(strict_types=1);
 
 namespace App\Biz\Captcha\Service\Impl;
@@ -37,7 +36,7 @@ class CaptchaServiceImpl extends BaseServiceImpl implements CaptchaService
     public function validatorCode(string $code, string $key): bool
     {
         $cache = $this->container->get(CacheInterface::class);
-        if (!$cache->has($key)) {
+        if (! $cache->has($key)) {
             throw new CaptchaException(CaptchaException::CAPTCHA_EMPTY);
         }
 

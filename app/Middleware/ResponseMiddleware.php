@@ -68,7 +68,7 @@ class ResponseMiddleware implements MiddlewareInterface
     {
         $content = $response->getBody()->getContents();
         [$className, $actionName] = $this->getClassAndAction($request);
-        if (!$className || !$actionName) {
+        if (! $className || ! $actionName) {
             return $response;
         }
         $class = new \ReflectionClass($className);
@@ -110,7 +110,7 @@ class ResponseMiddleware implements MiddlewareInterface
     private function getClassAndAction(ServerRequestInterface $request): array
     {
         $name = $request->getAttribute(Dispatched::class)->handler->callback;
-        if (!is_string($name)) {
+        if (! is_string($name)) {
             return [null, null];
         }
 

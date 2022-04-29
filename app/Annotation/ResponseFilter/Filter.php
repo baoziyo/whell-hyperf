@@ -16,7 +16,6 @@ namespace App\Annotation\ResponseFilter;
 
 use App\Core\Biz\Container\Biz;
 use App\Utils\ArrayTools;
-use Hyperf\Di\Annotation\Inject;
 use Hyperf\Utils\Codec\Json;
 
 abstract class Filter
@@ -93,7 +92,7 @@ abstract class Filter
     {
         $property = $this->mode . 'Fields';
         if (property_exists($this, $this->fieldsName) && $this->{$this->fieldsName}) {
-            if (!empty($data['list'])) {
+            if (! empty($data['list'])) {
                 foreach ($data['list'] as &$item) {
                     $item = ArrayTools::parts($item, $this->{$this->fieldsName});
                     if (method_exists($this, $property)) {

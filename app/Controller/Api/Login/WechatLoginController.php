@@ -5,7 +5,6 @@
  * Author: Ogg <baoziyoo@gmail.com>.
  */
 
-
 declare(strict_types=1);
 
 namespace App\Controller\Api\Login;

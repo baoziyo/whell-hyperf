@@ -24,4 +24,3 @@ interface TokenService extends BaseService
 
     public function validate(string $type, RequestInterface $request): array;
 }
-

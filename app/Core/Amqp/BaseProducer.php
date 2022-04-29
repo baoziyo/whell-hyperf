@@ -9,9 +9,7 @@ declare(strict_types=1);
 
 namespace App\Core\Amqp;
 
-use App\Core\Biz\Container\Biz;
 use Hyperf\Amqp\Message\ProducerMessage;
-use Hyperf\Di\Annotation\Inject;
 
 class BaseProducer extends ProducerMessage
 {

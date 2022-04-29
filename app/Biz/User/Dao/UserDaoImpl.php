@@ -28,7 +28,8 @@ use Hyperf\Snowflake\Concern\Snowflake;
  */
 class UserDaoImpl extends BaseDaoImpl
 {
-    use SoftDeletes, Snowflake;
+    use SoftDeletes;
+    use Snowflake;
 
     protected $table = 'user';
 

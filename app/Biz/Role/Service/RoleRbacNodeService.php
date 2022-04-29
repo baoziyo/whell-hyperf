@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 namespace App\Biz\Role\Service;
 
-use App\Biz\Role\Dao\RoleDaoImpl;
 use App\Core\Biz\Service\BaseService;
 
 interface RoleRbacNodeService extends BaseService

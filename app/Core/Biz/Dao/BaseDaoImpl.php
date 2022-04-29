@@ -8,10 +8,8 @@ declare(strict_types=1);
 
 namespace App\Core\Biz\Dao;
 
-use Hyperf\Database\Model\Collection;
 use Hyperf\DbConnection\Model\Model as BaseModel;
 use Hyperf\ModelCache\Cacheable;
-use Hyperf\Database\Model\Model;
 
 abstract class BaseDaoImpl extends BaseModel
 {
@@ -25,12 +23,12 @@ abstract class BaseDaoImpl extends BaseModel
 
     protected $dateFormat = 'Y-m-d H:i:s';
 
-    public static function getById($id): ?Model
+    public static function getByCache($id)
     {
         return self::findFromCache($id);
     }
 
-    public static function findByIds($ids): Collection
+    public static function findByCache($ids)
     {
         return self::findManyFromCache($ids);
     }

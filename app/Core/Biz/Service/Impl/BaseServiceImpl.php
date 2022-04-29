@@ -11,20 +11,13 @@ namespace App\Core\Biz\Service\Impl;
 use App\Biz\Log\Service\LogService;
 use App\Core\Biz\Container\Biz;
 use App\Core\Biz\Service\BaseService;
-use http\Exception\InvalidArgumentException;
 use Psr\Container\ContainerInterface;
 
 class BaseServiceImpl implements BaseService
 {
-    /**
-     * @var Biz
-     */
-    protected $biz;
+    protected Biz $biz;
 
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    protected ContainerInterface $container;
 
     protected $dao;
 
@@ -58,4 +51,3 @@ class BaseServiceImpl implements BaseService
         return $this->biz->getService('Log:Log');
     }
 }
-

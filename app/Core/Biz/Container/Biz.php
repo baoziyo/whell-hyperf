@@ -12,6 +12,7 @@ namespace App\Core\Biz\Container;
 use GuzzleHttp\Client;
 use Hyperf\Amqp\Producer;
 use Hyperf\Redis\Redis;
+use Psr\Container\ContainerInterface;
 
 interface Biz
 {
@@ -24,4 +25,6 @@ interface Biz
     public function getClient(array $config = [], bool $grayLog = true): Client;
 
     public function getAmqp(): Producer;
+
+    public function getContainer(): ContainerInterface;
 }

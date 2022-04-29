@@ -23,4 +23,3 @@ interface WechatService extends BaseService
 
     public function getAppSecret(): string;
 }
-

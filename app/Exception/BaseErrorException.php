@@ -34,11 +34,11 @@ class BaseErrorException extends ServerException
 
     public static function __callStatic($name, $arguments)
     {
-        if (!Str::startsWith($name, 'get')) {
+        if (! Str::startsWith($name, 'get')) {
             throw new ConstantsException('The function is not defined!');
         }
 
-        if (!isset($arguments) || count($arguments) === 0) {
+        if (! isset($arguments) || count($arguments) === 0) {
             throw new ConstantsException('The Code is required');
         }
 
@@ -58,7 +58,7 @@ class BaseErrorException extends ServerException
 
         $count = count($arguments);
         if ($count > 0) {
-            return sprintf($message, ...(array)$arguments[0]);
+            return sprintf($message, ...(array) $arguments[0]);
         }
 
         return $message;
@@ -66,12 +66,12 @@ class BaseErrorException extends ServerException
 
     protected static function translate($key, $arguments): ?string
     {
-        if (!ApplicationContext::hasContainer() || !ApplicationContext::getContainer()->has(TranslatorInterface::class)) {
+        if (! ApplicationContext::hasContainer() || ! ApplicationContext::getContainer()->has(TranslatorInterface::class)) {
             return null;
         }
 
         $replace = $arguments[0] ?? [];
-        if (!is_array($replace)) {
+        if (! is_array($replace)) {
             return null;
         }
 

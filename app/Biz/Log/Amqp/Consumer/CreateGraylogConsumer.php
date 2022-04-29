@@ -12,10 +12,10 @@ namespace App\Biz\Log\Amqp\Consumer;
 use App\Biz\Log\Service\LogService;
 use App\Core\Amqp\BaseConsumer;
 use Hyperf\Amqp\Annotation\Consumer;
+use Hyperf\Amqp\Result;
 use Hyperf\Retry\Annotation\Retry;
 use Hyperf\Utils\Codec\Json;
 use PhpAmqpLib\Message\AMQPMessage;
-use Hyperf\Amqp\Result;
 
 /**
  * @Consumer(exchange="createGraylog", routingKey="createGraylog", queue="log", name="CreateGraylog", nums=1)

@@ -16,13 +16,13 @@ use App\Core\Biz\Service\BaseService;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface as HttpResponse;
+use Hyperf\Utils\Codec\Json;
+use Hyperf\Utils\Context;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Hyperf\Utils\Codec\Json;
-use Hyperf\Utils\Context;
 
 class FirewallMiddleware implements MiddlewareInterface
 {
@@ -79,7 +79,7 @@ class FirewallMiddleware implements MiddlewareInterface
         Context::set('user', Json::encode($info));
 
         $uri = parse_url($request->url())['path'];
-        if (!empty($uri) && preg_match('/^\/admin(.*)/', $uri)) {
+        if (! empty($uri) && preg_match('/^\/admin(.*)/', $uri)) {
             $user = $this->getUserService()->getByCache($info['id']);
             if ($user['isAdmin'] !== BaseService::ENABLED) {
                 $this->getRoleService()->isPermission($user['role'], $uri);
@@ -93,10 +93,10 @@ class FirewallMiddleware implements MiddlewareInterface
     {
         foreach ($this->whitelist as $method => $whitelist) {
             foreach ($whitelist as $uri) {
-                if ($this->request->getMethod() === $method &&
-                    !empty(parse_url($url)['path']) &&
-                    preg_match($uri, parse_url($url)['path']) &&
-                    preg_match('/^\/admin(.*)/', parse_url($url)['path'])
+                if ($this->request->getMethod() === $method
+                    && ! empty(parse_url($url)['path'])
+                    && preg_match($uri, parse_url($url)['path'])
+                    && preg_match('/^\/admin(.*)/', parse_url($url)['path'])
                 ) {
                     return true;
                 }

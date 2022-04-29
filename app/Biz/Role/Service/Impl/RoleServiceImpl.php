@@ -21,9 +21,10 @@ class RoleServiceImpl extends BaseServiceImpl implements RoleService
 
     public function get(int $id): RoleDaoImpl
     {
+        /** @var RoleDaoImpl $role */
         $role = RoleDaoImpl::findFromCache($id);
 
-        if (!$role || !$role->exists) {
+        if (! $role || ! $role->exists) {
             throw new RoleException(RoleException::NOT_FOUND);
         }
 
@@ -33,9 +34,9 @@ class RoleServiceImpl extends BaseServiceImpl implements RoleService
     public function isPermission(int $roleId, string $uri): void
     {
         $role = $this->get($roleId);
-        $rbacNodes = $this->getRbacNodeService()->findByCache($role['data']);
+        $rbacNodes = $this->getRbacNodeService()->findByCache($role->data);
         $rbacNodeLinks = array_column($rbacNodes, null, 'link');
-        if (!in_array($uri, $rbacNodeLinks, true)) {
+        if (! in_array($uri, $rbacNodeLinks, true)) {
             throw new RoleException(RoleException::NOT_FOUND);
         }
     }

@@ -11,9 +11,10 @@ namespace App\Biz\User\Config;
 
 use Hyperf\HttpServer\Contract\RequestInterface;
 
-interface  TokenStrategy
+interface TokenStrategy
 {
     public const EXPIRES_TIME = 36000;
+
     public const REFRESH_EXPIRES_TIME = 72000;
 
     public function generateToken(array $params = []): array;

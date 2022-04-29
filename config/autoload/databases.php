@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use App\Core\Biz\Dao\BaseDaoImpl;
 
-/**
+/*
  * This file is part of Hyperf.
  *
  * @link     https://www.hyperf.io

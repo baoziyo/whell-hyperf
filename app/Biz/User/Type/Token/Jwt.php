@@ -11,17 +11,18 @@ namespace App\Biz\User\Type\Token;
 
 use App\Biz\User\Config\TokenStrategy;
 use App\Biz\User\Exception\TokenException;
+use Exception;
 use Firebase\JWT\BeforeValidException;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT as FirebaseJwt;
 use Firebase\JWT\Key as FirebaseKey;
 use Firebase\JWT\SignatureInvalidException;
-use Exception;
 use Hyperf\HttpServer\Contract\RequestInterface;
 
 class Jwt implements TokenStrategy
 {
     public const ALG = 'HS256';
+
     public const LEEWAY = 30;
 
     public function generateToken(array $params = []): array
@@ -82,7 +83,7 @@ class Jwt implements TokenStrategy
             FirebaseJwt::$leeway = self::LEEWAY;
             $decode = FirebaseJwt::decode($token, new FirebaseKey('JWT_KEY', self::ALG));
 
-            return (array)$decode;
+            return (array) $decode;
         } catch (SignatureInvalidException $e) {
             //签名不正确
             throw new TokenException(TokenException::TOKEN_ERROR);

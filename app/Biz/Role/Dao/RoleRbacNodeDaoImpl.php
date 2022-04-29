@@ -4,7 +4,7 @@
  * ogg sit down and start building bugs.
  * Author: Ogg <baoziyoo@gmail.com>.
  */
-declare (strict_types=1);
+declare(strict_types=1);
 
 namespace App\Biz\Role\Dao;
 
@@ -32,13 +32,14 @@ use Hyperf\Snowflake\Concern\Snowflake;
  */
 class RoleRbacNodeDaoImpl extends BaseDaoImpl
 {
-    use SoftDeletes, Snowflake;
+    use SoftDeletes;
+    use Snowflake;
 
     protected $table = 'role_rbac_node';
 
     protected $fillable = [
         'id', 'name', 'status', 'link', 'type', 'parentId', 'module', 'controller', 'node', 'option', 'style', 'icon',
-        'sort', 'createdTime', 'updatedTime', 'deletedTime'
+        'sort', 'createdTime', 'updatedTime', 'deletedTime',
     ];
 
     protected $casts = [

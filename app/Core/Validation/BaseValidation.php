@@ -71,7 +71,7 @@ abstract class BaseValidation
 
     private function getRules($scene = ''): array
     {
-        if ($scene === '' || !isset($this->scene[$scene]) || empty($this->scene[$scene])) {
+        if ($scene === '' || ! isset($this->scene[$scene]) || empty($this->scene[$scene])) {
             return $this->rules;
         }
 
@@ -79,7 +79,7 @@ abstract class BaseValidation
         foreach ($this->scene[$scene] as $keyScene => $rowScene) {
             if (is_numeric($keyScene)) {
                 //键是数字;eg:'0'=>'field_name'，直接用rules中的规则
-                if (!isset($this->rules[$rowScene])) {
+                if (! isset($this->rules[$rowScene])) {
                     throw new InvalidArgumentException(InvalidArgumentException::PARAMETER_LOSS, null, null, [$rowScene]);
                 }
                 $sceneRule[$rowScene] = $this->rules[$rowScene];
@@ -87,7 +87,7 @@ abstract class BaseValidation
 
             if (is_string($keyScene)) {
                 //键是字符串;eg:'field_name'=>'rule_value'，需要合并rules中的规则
-                if (!isset($this->rules[$keyScene])) {
+                if (! isset($this->rules[$keyScene])) {
                     // 暂时给空操作，如无问题则移除以下注释代码
                     // throw new InvalidArgumentException(InvalidArgumentException::PARAMETER_LOSS, null, null, [$keyScene]);
                     $this->rules[$keyScene] = '';

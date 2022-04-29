@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of Hyperf.
  *
- * @link     https://www.hyperf.io
+ * @see     https://www.hyperf.io
  * @document https://hyperf.wiki
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
@@ -12,11 +12,9 @@ declare(strict_types=1);
 
 namespace App\Listener;
 
-use App\Biz\Log\Service\LogService;
 use App\Core\Biz\Container\Biz;
 use Hyperf\Database\Events\QueryExecuted;
 use Hyperf\Database\Events\StatementPrepared;
-use Hyperf\Di\Annotation\Inject;
 use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\Logger\LoggerFactory;
@@ -60,7 +58,7 @@ class DbQueryExecutedListener implements ListenerInterface
     {
         if ($event instanceof QueryExecuted) {
             $sql = $event->sql;
-            if (!Arr::isAssoc($event->bindings)) {
+            if (! Arr::isAssoc($event->bindings)) {
                 foreach ($event->bindings as $key => $value) {
                     $sql = Str::replaceFirst('?', "'{$value}'", $sql);
                 }
@@ -69,7 +67,7 @@ class DbQueryExecutedListener implements ListenerInterface
             $logger = $this->container->get(LoggerFactory::class)->get('sql');
             $logger->info(sprintf('[%s] sql: %s', $event->time, $sql));
 
-            if ($event->time > (int)env('LOW_SQL_TIME', 3000)) {
+            if ($event->time > (int) env('LOW_SQL_TIME', 3000)) {
                 $logger = $this->container->get(LoggerFactory::class)->get('low-sql');
                 $logger->info(sprintf('[%s] sql慢查询: %s', $event->time, $sql));
             }

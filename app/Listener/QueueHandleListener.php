@@ -4,11 +4,12 @@ declare(strict_types=1);
 /**
  * This file is part of Hyperf.
  *
- * @link     https://www.hyperf.io
+ * @see     https://www.hyperf.io
  * @document https://hyperf.wiki
  * @contact  group@hyperf.io
  * @license  https://github.com/hyperf/hyperf/blob/master/LICENSE
  */
+
 namespace App\Listener;
 
 use Hyperf\AsyncQueue\AnnotationJob;
@@ -21,6 +22,7 @@ use Hyperf\Event\Annotation\Listener;
 use Hyperf\Event\Contract\ListenerInterface;
 use Hyperf\ExceptionHandler\Formatter\FormatterInterface;
 use Hyperf\Logger\LoggerFactory;
+use Psr\Container\ContainerInterface;
 
 /**
  * @Listener
@@ -37,18 +39,22 @@ class QueueHandleListener implements ListenerInterface
      */
     protected $formatter;
 
-    public function __construct(LoggerFactory $loggerFactory, FormatterInterface $formatter)
+    public function __construct(ContainerInterface $container, FormatterInterface $formatter)
     {
-        $this->logger = $loggerFactory->get('queue');
+        $this->logger = $container->get(LoggerFactory::class)->get('queue');
         $this->formatter = $formatter;
     }
 
     public function listen(): array
     {
         return [
+            // 处理后触发
             AfterHandle::class,
+            // 处理前触发
             BeforeHandle::class,
+            // 处理失败触发
             FailedHandle::class,
+            // 重试处理前触发
             RetryHandle::class,
         ];
     }
@@ -59,23 +65,21 @@ class QueueHandleListener implements ListenerInterface
             $job = $event->message->job();
             $jobClass = get_class($job);
             if ($job instanceof AnnotationJob) {
-                $jobClass = sprintf('Job[%s@%s]', $job->class, $job->method);
+                $jobClass = sprintf('Queue [%s@%s]', $job->class, $job->method);
             }
-            $date = date('Y-m-d H:i:s');
 
             switch (true) {
                 case $event instanceof BeforeHandle:
-                    $this->logger->info(sprintf('[%s] Processing %s.', $date, $jobClass));
+                    $this->logger->info(sprintf('Redis Processing %s.', $jobClass));
                     break;
                 case $event instanceof AfterHandle:
-                    $this->logger->info(sprintf('[%s] Processed %s.', $date, $jobClass));
+                    $this->logger->info(sprintf('Redis Processed %s.', $jobClass));
                     break;
                 case $event instanceof FailedHandle:
-                    $this->logger->error(sprintf('[%s] Failed %s.', $date, $jobClass));
-                    $this->logger->error($this->formatter->format($event->getThrowable()));
+                    $this->logger->error(sprintf('Redis Failed %s.', $jobClass) . PHP_EOL . $this->formatter->format($event->getThrowable()));
                     break;
                 case $event instanceof RetryHandle:
-                    $this->logger->warning(sprintf('[%s] Retried %s.', $date, $jobClass));
+                    $this->logger->warning(sprintf('Redis Retried %s.', $jobClass));
                     break;
             }
         }

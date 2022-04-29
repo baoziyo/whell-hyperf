@@ -67,7 +67,7 @@ class Validator extends \Hyperf\Validation\Validator
     private function registerRules(): void
     {
         $this->addExtension('timestamp', function ($attribute, $value, $parameters, $validator) {
-            return strtotime(date('Y-m-d H:i:s', (int)$value)) === (int)$value;
+            return strtotime(date('Y-m-d H:i:s', (int) $value)) === (int) $value;
         });
 
         $this->addExtension('alpha_num_plus', function ($attribute, $value, $parameters, $validator) {
@@ -75,7 +75,7 @@ class Validator extends \Hyperf\Validation\Validator
         });
 
         $this->addExtension('minute_second', function ($attribute, $value, $parameters, $validator) {
-            return preg_match('/^\d{2}:\d{2}$/', (string)$value) !== 0;
+            return preg_match('/^\d{2}:\d{2}$/', (string) $value) !== 0;
         });
 
         $this->addExtension('phone_number_plus', function ($attribute, $value, $parameters, $validator) {

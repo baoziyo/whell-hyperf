@@ -37,23 +37,23 @@ interface LogService extends LoggerInterface
         LogLevel::DEBUG => 7,
     ];
 
-    public function emergency($message, array $context = [], $sendGaryLog = false): void;
+    public function emergency($message, array $context = [], $sendGaryLog = true): void;
 
-    public function alert($message, array $context = [], $sendGaryLog = false): void;
+    public function alert($message, array $context = [], $sendGaryLog = true): void;
 
-    public function critical($message, array $context = [], $sendGaryLog = false): void;
+    public function critical($message, array $context = [], $sendGaryLog = true): void;
 
-    public function error($message, array $context = [], $sendGaryLog = false): void;
+    public function error($message, array $context = [], $sendGaryLog = true): void;
 
-    public function warning($message, array $context = [], $sendGaryLog = false): void;
+    public function warning($message, array $context = [], $sendGaryLog = true): void;
 
-    public function notice($message, array $context = [], $sendGaryLog = false): void;
+    public function notice($message, array $context = [], $sendGaryLog = true): void;
 
-    public function info($message, array $context = [], $sendGaryLog = false): void;
+    public function info($message, array $context = [], $sendGaryLog = true): void;
 
-    public function debug($message, array $context = [], $sendGaryLog = false): void;
+    public function debug($message, array $context = [], $sendGaryLog = true): void;
 
-    public function log($level, $message, array $context = [], $sendGaryLog = false): void;
+    public function log($level, $message, array $context = [], $sendGaryLog = true): void;
 
     public function requestLog($request, $response, $responseText = []): void;
 
