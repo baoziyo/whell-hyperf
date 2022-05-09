@@ -11,6 +11,7 @@ namespace App\Core\Biz\Service\Impl;
 use App\Biz\Log\Service\LogService;
 use App\Core\Biz\Container\Biz;
 use App\Core\Biz\Service\BaseService;
+use App\Utils\ArrayTools;
 use Psr\Container\ContainerInterface;
 
 class BaseServiceImpl implements BaseService
@@ -30,6 +31,7 @@ class BaseServiceImpl implements BaseService
     public function create(array $params)
     {
         $dao = new $this->dao();
+        $params = ArrayTools::parts($params, $dao->getFillable());
         $dao->fill($params);
         $dao->save();
 

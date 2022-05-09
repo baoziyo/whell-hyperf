@@ -20,20 +20,20 @@ use Psr\Log\LogLevel;
 interface LogService extends LoggerInterface
 {
     public const GRAY_LOG_LEVELS = [
-        //EMERGENCY (600): 系统不可用。
+        // EMERGENCY (600): 系统不可用。
         LogLevel::EMERGENCY => 0,
         LogLevel::ALERT => 1,
-        //CRITICAL (500): 严重错误。
+        // CRITICAL (500): 严重错误。
         LogLevel::CRITICAL => 2,
-        //ERROR (400): 运行时错误，但是不需要立刻处理。
+        // ERROR (400): 运行时错误，但是不需要立刻处理。
         LogLevel::ERROR => 3,
-        //WARNING (300): 出现非错误的异常。
+        // WARNING (300): 出现非错误的异常。
         LogLevel::WARNING => 4,
-        //NOTICE (250): 普通但是重要的事件。
+        // NOTICE (250): 普通但是重要的事件。
         LogLevel::NOTICE => 5,
-        //INFO (200): 关键事件。
+        // INFO (200): 关键事件。
         LogLevel::INFO => 6,
-        //DEBUG (100): 详细的debug信息。
+        // DEBUG (100): 详细的debug信息。
         LogLevel::DEBUG => 7,
     ];
 

@@ -23,6 +23,10 @@ class UserServiceImpl extends BaseServiceImpl implements UserService
 
     public function register(array $data): UserDaoImpl
     {
+        if (! isset($data['source']) || ! $this->validateSource($data['source'])) {
+            throw new UserException(UserException::USER_SOURCE_ERROR);
+        }
+
         $data = $this->getUserSourceStrategy($data['source'])->buildRegisterParams($data);
         [$data['password'], $data['salt']] = $this->generatePassword($data['password']);
 
@@ -63,5 +67,10 @@ class UserServiceImpl extends BaseServiceImpl implements UserService
         }
 
         return [base64_encode($digest), $salt];
+    }
+
+    private function validateSource(string $type): bool
+    {
+        return array_key_exists($type, self::USER_SOURCE_STRATEGY_TYPE);
     }
 }

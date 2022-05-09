@@ -26,4 +26,9 @@ class UserException extends BaseErrorException
      * @Tip("注册用户失败.")
      */
     public const REGISTER_USER_ERROR = 500004001;
+
+    /**
+     * @Tip("注册来源不存在.")
+     */
+    public const USER_SOURCE_ERROR = 500004002;
 }

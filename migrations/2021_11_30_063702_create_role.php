@@ -14,7 +14,7 @@ class CreateRole extends Migration
     public function up(): void
     {
         Schema::create('role', function (Blueprint $table) {
-            $table->unsignedInteger('id')->nullable(false)->unique('uniq_id');
+            $table->unsignedBigInteger('id')->nullable(false)->unique('uniq_id');
             $table->string('name', 64)->nullable(false)->comment('权限名称');
             $table->string('status')->default('enabled')->nullable(false)->comment('状态:enabled 启用;disabled 禁用;');
             $table->text('data')->default(null)->nullable(false)->comment('权限配置');

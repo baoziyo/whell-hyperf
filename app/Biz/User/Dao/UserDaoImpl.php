@@ -34,7 +34,7 @@ class UserDaoImpl extends BaseDaoImpl
     protected $table = 'user';
 
     protected $fillable = [
-        'id', 'name', 'password', 'salt', 'phone', 'email', 'role', 'status', 'lasLoginTime',
+        'id', 'name', 'password', 'salt', 'phone', 'email', 'role', 'status', 'isAdmin', 'avatar', 'lasLoginTime',
     ];
 
     protected $casts = [

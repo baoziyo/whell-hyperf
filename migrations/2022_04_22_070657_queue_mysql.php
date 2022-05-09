@@ -14,7 +14,7 @@ class QueueMysql extends Migration
     public function up(): void
     {
         Schema::create('queue_mysql', function (Blueprint $table) {
-            $table->unsignedInteger('id')->nullable(false)->unique('uniq_id');
+            $table->unsignedBigInteger('id')->nullable(false)->unique('uniq_id');
             $table->timestamp('sendTime')->nullable()->comment('发送时间');
             $table->timestamp('createdTime')->nullable()->comment('创建时间');
             $table->timestamp('updatedTime')->nullable()->comment('更新时间');

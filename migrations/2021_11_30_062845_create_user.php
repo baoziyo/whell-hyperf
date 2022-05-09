@@ -14,13 +14,13 @@ class CreateUser extends Migration
     public function up(): void
     {
         Schema::create('user', function (Blueprint $table) {
-            $table->unsignedInteger('id')->nullable(false)->unique('uniq_id');
+            $table->unsignedBigInteger('id')->nullable(false)->unique('uniq_id');
             $table->string('name', 64)->nullable(false)->comment('用户名');
             $table->string('password', 128)->nullable(false)->comment('密码');
             $table->string('salt', 16)->nullable(false)->comment('密码盐');
             $table->string('phone', 13)->default('')->nullable(false)->comment('联系电话')->unique('uniq_phone');
             $table->string('email')->default('')->nullable(false)->comment('邮箱');
-            $table->unsignedInteger('role')->default(0)->nullable(false)->comment('角色id');
+            $table->unsignedBigInteger('role')->default(0)->nullable(false)->comment('角色id');
             $table->string('status')->default('enabled')->nullable(false)->comment('状态:enabled 启用;disabled 禁用;');
             $table->string('isAdmin')->default('disabled')->nullable(false)->comment('管理员:enabled 启用;disabled 禁用;');
             $table->string('avatar', 256)->default('')->nullable(false)->comment('头像');

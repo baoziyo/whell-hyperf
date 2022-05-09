@@ -78,7 +78,7 @@ abstract class BaseValidation
         $sceneRule = [];
         foreach ($this->scene[$scene] as $keyScene => $rowScene) {
             if (is_numeric($keyScene)) {
-                //键是数字;eg:'0'=>'field_name'，直接用rules中的规则
+                // 键是数字;eg:'0'=>'field_name'，直接用rules中的规则
                 if (! isset($this->rules[$rowScene])) {
                     throw new InvalidArgumentException(InvalidArgumentException::PARAMETER_LOSS, null, null, [$rowScene]);
                 }
@@ -86,7 +86,7 @@ abstract class BaseValidation
             }
 
             if (is_string($keyScene)) {
-                //键是字符串;eg:'field_name'=>'rule_value'，需要合并rules中的规则
+                // 键是字符串;eg:'field_name'=>'rule_value'，需要合并rules中的规则
                 if (! isset($this->rules[$keyScene])) {
                     // 暂时给空操作，如无问题则移除以下注释代码
                     // throw new InvalidArgumentException(InvalidArgumentException::PARAMETER_LOSS, null, null, [$keyScene]);

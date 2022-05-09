@@ -33,9 +33,9 @@ class Jwt implements TokenStrategy
         $payload = [
             'iss' => env('APP_NAME'),
             'aud' => env('APP_NAME'),
-            //签发时间
+            // 签发时间
             'iat' => $time,
-            //过期时间
+            // 过期时间
             'exp' => $time + self::EXPIRES_TIME,
             'data' => array_merge($params, ['type' => 'onlyValidate']),
         ];
@@ -85,10 +85,10 @@ class Jwt implements TokenStrategy
 
             return (array) $decode;
         } catch (SignatureInvalidException $e) {
-            //签名不正确
+            // 签名不正确
             throw new TokenException(TokenException::TOKEN_ERROR);
         } catch (BeforeValidException $e) {
-            //签名在某个时间点之后才可以使用
+            // 签名在某个时间点之后才可以使用
             throw new TokenException(TokenException::TOKEN_ERROR);
         } catch (ExpiredException $e) {
             // token过期
