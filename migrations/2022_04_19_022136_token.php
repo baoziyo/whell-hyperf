@@ -13,7 +13,7 @@ class Token extends Migration
      */
     public function up(): void
     {
-        Schema::create('token', function (Blueprint $table) {
+        Schema::create('token', static function (Blueprint $table) {
             $table->string('key', 64)->nullable(false)->comment('token 名称')->unique('uniq_key');
             $table->string('value', 64)->nullable(false)->comment('token 值');
             $table->unsignedInteger('expires')->nullable(false)->default(0)->comment('有效期(秒)');

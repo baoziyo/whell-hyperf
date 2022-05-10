@@ -13,7 +13,7 @@ class UserBind extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_bind', function (Blueprint $table) {
+        Schema::create('user_bind', static function (Blueprint $table) {
             $table->unsignedBigInteger('id')->nullable(false)->unique('uniq_id');
             $table->unsignedBigInteger('userId')->nullable(false)->comment('用户id');
             $table->string('type', 64)->nullable(false)->default('')->comment('绑定类型:wechat 微信;');

@@ -13,7 +13,7 @@ class QueueMysql extends Migration
      */
     public function up(): void
     {
-        Schema::create('queue_mysql', function (Blueprint $table) {
+        Schema::create('queue_mysql', static function (Blueprint $table) {
             $table->unsignedBigInteger('id')->nullable(false)->unique('uniq_id');
             $table->timestamp('sendTime')->nullable()->comment('发送时间');
             $table->timestamp('createdTime')->nullable()->comment('创建时间');

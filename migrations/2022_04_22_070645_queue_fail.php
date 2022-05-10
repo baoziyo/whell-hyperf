@@ -13,7 +13,7 @@ class QueueFail extends Migration
      */
     public function up(): void
     {
-        Schema::create('queue_fail', function (Blueprint $table) {
+        Schema::create('queue_fail', static function (Blueprint $table) {
             $table->unsignedBigInteger('id')->nullable(false)->unique('uniq_id');
             $table->unsignedBigInteger('targetId')->nullable(false)->comment('通知id')->unique('uniq_targetId');
             $table->text('failUserIds')->nullable(false)->comment('发送失败用户Ids');

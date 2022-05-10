@@ -13,7 +13,7 @@ class CreateUser extends Migration
      */
     public function up(): void
     {
-        Schema::create('user', function (Blueprint $table) {
+        Schema::create('user', static function (Blueprint $table) {
             $table->unsignedBigInteger('id')->nullable(false)->unique('uniq_id');
             $table->string('name', 64)->nullable(false)->comment('用户名');
             $table->string('password', 128)->nullable(false)->comment('密码');

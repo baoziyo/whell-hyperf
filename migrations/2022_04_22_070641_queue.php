@@ -13,7 +13,7 @@ class Queue extends Migration
      */
     public function up(): void
     {
-        Schema::create('queue', function (Blueprint $table) {
+        Schema::create('queue', static function (Blueprint $table) {
             $table->unsignedBigInteger('id')->nullable(false)->unique('uniq_id');
             $table->string('queue', 32)->nullable(false)->default('')->comment('队列名称');
             $table->string('type', 256)->nullable(false)->default('')->comment('发送通道');
