@@ -46,9 +46,9 @@ class RotatingFileHandler extends \Monolog\Handler\RotatingFileHandler
             $this->stream = $this->getTimedFilename();
         } elseif (is_string($this->getTimedFilename())) {
             $this->url = Utils::canonicalizePath($this->getTimedFilename());
+        } else {
+            throw new \InvalidArgumentException('A stream must either be a resource or a string.');
         }
-
-        throw new \InvalidArgumentException('A stream must either be a resource or a string.');
     }
 
     /**
