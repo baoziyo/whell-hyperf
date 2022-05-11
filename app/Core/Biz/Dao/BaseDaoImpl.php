@@ -23,11 +23,13 @@ abstract class BaseDaoImpl extends BaseModel
 
     protected $dateFormat = 'Y-m-d H:i:s';
 
+    /* @phpstan-ignore-next-line */
     public static function getByCache($id)
     {
         return self::findFromCache($id);
     }
 
+    /* @phpstan-ignore-next-line */
     public static function findByCache($ids)
     {
         return self::findManyFromCache($ids);

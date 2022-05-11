@@ -17,28 +17,17 @@ use App\Core\Biz\Container\Biz;
 use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\HttpServer\Contract\ResponseInterface;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 
 abstract class AbstractController
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    protected ContainerInterface $container;
 
-    /**
-     * @var RequestInterface
-     */
-    protected $request;
+    protected RequestInterface $request;
 
-    /**
-     * @var ResponseInterface
-     */
-    protected $response;
+    protected ResponseInterface $response;
 
-    /**
-     * @var Biz
-     */
-    protected $biz;
+    protected Biz $biz;
 
     public function __construct(ContainerInterface $container, RequestInterface $request, ResponseInterface $response, Biz $biz)
     {
@@ -48,7 +37,8 @@ abstract class AbstractController
         $this->container = $container;
     }
 
-    protected function buildRequest($data = [], $type = 'json', $code = 200, $message = '操作成功.')
+    /* @phpstan-ignore-next-line */
+    protected function buildRequest($data = [], string $type = 'json', int $code = 200, string $message = '操作成功.'): PsrResponseInterface
     {
         return $this->response->{$type}([
             'code' => $code,

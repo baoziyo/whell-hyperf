@@ -23,7 +23,7 @@ class WechatClient
      */
     protected Biz $biz;
 
-    public function codeToSession(string $code, string $appId = null, string $appSecret = null): string
+    public function codeToSession(string $code, string $appId = null, string $appSecret = null): array
     {
         $response = $this->getClient()->get('/sns/jscode2session', [
             'query' => [
@@ -60,6 +60,7 @@ class WechatClient
         return $response;
     }
 
+    /* @phpstan-ignore-next-line */
     public function sendMessage(string $userOpenId, array $data, string $appId = null)
     {
         $data = array_merge($data, ['appid' => $appId ?? $this->getWechatService()->getAppId()]);

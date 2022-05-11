@@ -18,6 +18,7 @@ interface Biz
 {
     public function getVersion(string $appointVersion = ''): string;
 
+    /* @phpstan-ignore-next-line */
     public function getService(string $serviceName, string $version = '');
 
     public function getRedis(string $poolName = 'default'): Redis;

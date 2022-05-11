@@ -58,7 +58,7 @@ class Validator extends \Hyperf\Validation\Validator
         // fire them off. This gives the callbacks a chance to perform all kinds
         // of other validation that needs to get wrapped up in this operation.
         foreach ($this->after as $after) {
-            call_user_func($after);
+            $after();
         }
 
         return $this->messages->isEmpty();
@@ -79,13 +79,13 @@ class Validator extends \Hyperf\Validation\Validator
         });
 
         $this->addExtension('phone_number_plus', function ($attribute, $value, $parameters, $validator) {
-            return preg_match('/^(13[\d]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[\d]|19[0-35-9])\d{8}$/', $value) !== 0;
+            return preg_match('/^(13\d|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[\d]|19[0-35-9])\d{8}$/', $value) !== 0;
         });
 
         $this->addExtension('exclude_rules_if', function ($attribute, $value, $parameters, $validator) {
             $this->requireParameterCount(2, $parameters, 'exclude_rules_if');
 
-            if ($value == $parameters[0]) {
+            if ($value === $parameters[0]) {
                 $excludeFields = $parameters;
                 unset($excludeFields[0]);
 

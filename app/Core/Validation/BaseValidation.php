@@ -17,17 +17,16 @@ abstract class BaseValidation
 {
     /**
      * @Inject
-     * @var Biz
      */
-    protected $biz;
+    protected Biz $biz;
 
-    protected $rules = [];
+    protected array $rules = [];
 
-    protected $messages = [];
+    protected array $messages = [];
 
-    protected $scene = [];
+    protected array $scene = [];
 
-    protected $customAttributes = [];
+    protected array $customAttributes = [];
 
     /**
      * @var ValidatorFactoryInterface
@@ -43,7 +42,7 @@ abstract class BaseValidation
         $this->validationFactory = make(ValidatorFactoryInterface::class);
     }
 
-    public function validation($data, $scene = '')
+    public function validation(array $data, string $scene = ''): bool
     {
         $validator = $this->validationFactory->make($data, $this->getRules($scene), $this->messages, $this->customAttributes);
 
@@ -69,7 +68,7 @@ abstract class BaseValidation
         return [];
     }
 
-    private function getRules($scene = ''): array
+    private function getRules(string $scene = ''): array
     {
         if ($scene === '' || ! isset($this->scene[$scene]) || empty($this->scene[$scene])) {
             return $this->rules;

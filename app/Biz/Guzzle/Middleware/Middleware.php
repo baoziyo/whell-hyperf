@@ -11,7 +11,6 @@ namespace App\Biz\Guzzle\Middleware;
 
 use App\Biz\Log\Amqp\Producer\CreateGraylogProducer;
 use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\MessageFormatterInterface;
 use GuzzleHttp\Promise as P;
 use GuzzleHttp\Promise\PromiseInterface;
@@ -22,9 +21,9 @@ use Psr\Log\LoggerInterface;
 
 class Middleware
 {
-    public static function log(LoggerInterface $logger, $formatter, string $logLevel = 'info'): callable
+    public static function log(LoggerInterface $logger, object $formatter, string $logLevel = 'info'): callable
     {
-        if (! $formatter instanceof MessageFormatter && ! $formatter instanceof MessageFormatterInterface) {
+        if (! $formatter instanceof MessageFormatterInterface) {
             throw new \LogicException(sprintf('Argument 2 to %s::log() must be of type %s', self::class, MessageFormatterInterface::class));
         }
 
@@ -69,7 +68,7 @@ class Middleware
                             'time' => date('Y-m-d H:i:s'),
                             'method' => $request->getMethod(),
                             'urlTarget' => $request->getRequestTarget(),
-                            'code' => $response ? $response->getStatusCode() : 'NULL',
+                            'code' => $response->getStatusCode(),
                             'requestBody' => $request->getBody()->__toString(),
                             'responseBody' => $result,
                         ]);

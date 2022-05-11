@@ -18,21 +18,22 @@ class TokenServiceImpl extends BaseServiceImpl implements TokenService
 
     public function getToken(string $key): string
     {
-        $token = TokenDaoImpl::where('key', $key)->first();
-        if ($token === null) {
+        /** @var TokenDaoImpl $token */
+        $token = TokenDaoImpl::query()->where('key', $key)->first();
+        if (! $token->exists) {
             return '';
         }
 
-        if ($token['expiresTime'] > time() || ($token['createdTime'] + $token['expires']) > time()) {
+        if ($token->expiresTime > time() || ($token->createdTime + $token->expires) > time()) {
             return '';
         }
 
-        return $token['value'];
+        return $token->value;
     }
 
     public function updateToken(string $key, string $value, int $expires): bool
     {
-        $token = TokenDaoImpl::where('key', $key)->value('id');
+        $token = TokenDaoImpl::query()->where('key', $key)->value('id');
         if ($token === '') {
             $this->createToken($key, $value, $expires);
             return true;

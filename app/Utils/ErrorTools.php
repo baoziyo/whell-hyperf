@@ -11,7 +11,7 @@ namespace App\Utils;
 
 class ErrorTools extends App
 {
-    public static function generateErrorInfo(\Exception $error): array
+    public static function generateErrorInfo(\Throwable $error): array
     {
         return [
             'file' => $error->getFile(),

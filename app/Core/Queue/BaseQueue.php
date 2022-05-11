@@ -18,17 +18,16 @@ use Throwable;
 
 abstract class BaseQueue extends Job
 {
-    public $params;
-
     /**
      * @Inject
-     * @var Biz
      */
-    protected $biz;
+    protected Biz $biz;
 
     protected $maxAttempts = 3;
 
-    public function __construct($params)
+    protected array $params;
+
+    public function __construct(array $params)
     {
         $this->params = $params;
     }
@@ -56,10 +55,9 @@ abstract class BaseQueue extends Job
     }
 
     /**
-     * @param $params
      * @return array[id,failUserIds,failDetails,...]
      */
-    abstract public function process($params): array;
+    abstract public function process(array $params): array;
 
     private function getQueueService(): QueueService
     {

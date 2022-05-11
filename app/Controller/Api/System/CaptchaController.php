@@ -10,10 +10,11 @@ namespace App\Controller\Api\System;
 
 use App\Biz\Captcha\Service\CaptchaService;
 use App\Controller\AbstractController;
+use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 
 class CaptchaController extends AbstractController
 {
-    public function get()
+    public function get(): PsrResponseInterface
     {
         $response = $this->getCaptchaService()->generateCaptcha();
 

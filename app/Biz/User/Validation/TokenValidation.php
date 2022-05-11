@@ -8,12 +8,12 @@ use App\Core\Validation\BaseValidation;
 
 class TokenValidation extends BaseValidation
 {
-    protected $rules = [
+    protected array $rules = [
         'userName' => 'required',
         'password' => 'required',
     ];
 
-    protected $scene = [
+    protected array $scene = [
         'jwt' => ['userName', 'password'],
     ];
 }

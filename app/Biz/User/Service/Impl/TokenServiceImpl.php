@@ -26,7 +26,7 @@ class TokenServiceImpl extends BaseServiceImpl implements TokenService
         ], $token);
     }
 
-    public function refreshToken($params): array
+    public function refreshToken(array $params): array
     {
         $type = $params['type'];
         $token = $this->getTokenStrategy($type)->refreshToken($params['refreshToken']);

@@ -11,10 +11,10 @@ namespace App\Utils;
 
 class ArrayTools extends App
 {
-    public static function parts(array $array, array $keys): array
+    public static function parts(array $array, array $keys, bool $strict = false): array
     {
         foreach (array_keys($array) as $key) {
-            if (! in_array($key, $keys)) {
+            if (! in_array($key, $keys, $strict)) {
                 unset($array[$key]);
             }
         }
@@ -54,7 +54,7 @@ class ArrayTools extends App
         return $newArray;
     }
 
-    public static function group(array $array, $key)
+    public static function group(array $array, $key): array
     {
         $grouped = [];
 
@@ -69,7 +69,7 @@ class ArrayTools extends App
         return $grouped;
     }
 
-    public static function removeVoid($array)
+    public static function removeVoid($array): array
     {
         if (empty($array) || ! is_array($array)) {
             return $array;
@@ -86,7 +86,7 @@ class ArrayTools extends App
         return $array;
     }
 
-    public static function conversionUcwords($array, $model = true)
+    public static function conversionUcwords($array, $model = true): array
     {
         if (is_array($array)) {
             $newArray = [];

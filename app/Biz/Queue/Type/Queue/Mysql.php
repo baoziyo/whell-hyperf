@@ -14,7 +14,7 @@ use App\Biz\Queue\Service\QueueService;
 
 class Mysql extends Config
 {
-    protected $queueType = QueueService::QUEUE_TYPE_MYSQL;
+    protected string $queueType = QueueService::QUEUE_TYPE_MYSQL;
 
     public function beforeSendValidateQueue(): bool
     {

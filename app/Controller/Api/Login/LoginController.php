@@ -10,10 +10,11 @@ namespace App\Controller\Api\Login;
 
 use App\Biz\User\Service\TokenService;
 use App\Controller\AbstractController;
+use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 
 class LoginController extends AbstractController
 {
-    public function post()
+    public function post(): PsrResponseInterface
     {
         $params = $this->request->post();
         $token = $this->getTokenService()->generateToken($params);
@@ -21,7 +22,7 @@ class LoginController extends AbstractController
         return $this->buildRequest($token);
     }
 
-    public function update()
+    public function update(): PsrResponseInterface
     {
         $params = $this->request->post();
         $token = $this->getTokenService()->refreshToken($params);

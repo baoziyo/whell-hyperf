@@ -20,7 +20,7 @@ interface TokenService extends BaseService
 
     public function generateToken(array $params): array;
 
-    public function refreshToken($params): array;
+    public function refreshToken(array $params): array;
 
     public function validate(string $type, RequestInterface $request): array;
 }

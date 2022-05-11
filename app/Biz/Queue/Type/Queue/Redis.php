@@ -11,17 +11,17 @@ namespace App\Biz\Queue\Type\Queue;
 
 use App\Biz\Queue\Service\QueueService;
 use Hyperf\AsyncQueue\Driver\DriverInterface;
+use Hyperf\AsyncQueue\JobInterface;
 use Hyperf\Di\Annotation\Inject;
 
 class Redis extends Config
 {
     /**
      * @Inject
-     * @var DriverInterface
      */
-    protected $driver;
+    protected DriverInterface $driver;
 
-    protected $queueType = QueueService::QUEUE_TYPE_REDIS;
+    protected string $queueType = QueueService::QUEUE_TYPE_REDIS;
 
     public function beforeSendValidateQueue(): bool
     {
@@ -30,6 +30,8 @@ class Redis extends Config
 
     public function producer(string $sendTypes, string $templateType, array $params = [], int $delay = 0): bool
     {
-        return $this->driver->push(new $templateType($params), $delay);
+        /** @var JobInterface $obj */
+        $obj = new $templateType($params);
+        return $this->driver->push($obj, $delay);
     }
 }

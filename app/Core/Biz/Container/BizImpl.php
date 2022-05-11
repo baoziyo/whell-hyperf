@@ -14,6 +14,7 @@ use App\Biz\Guzzle\Middleware\Middleware;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use Hyperf\Amqp\Producer;
+use Hyperf\Context\Context;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\Guzzle\ClientFactory;
@@ -24,7 +25,6 @@ use Hyperf\Redis\Redis;
 use Hyperf\Redis\RedisFactory;
 use Hyperf\Utils\ApplicationContext;
 use Hyperf\Utils\Codec\Json;
-use Hyperf\Utils\Context;
 use Hyperf\Utils\Coroutine;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -33,17 +33,15 @@ class BizImpl implements Biz
 {
     /**
      * @Inject
-     * @var ConfigInterface
      */
-    public $config;
+    public ConfigInterface $config;
 
     /**
      * @Inject
-     * @var ContainerInterface
      */
-    public $container;
+    public ContainerInterface $container;
 
-    protected $serviceDir = 'App\Biz\%s%s\Service\Impl\%sServiceImpl';
+    protected string $serviceDir = 'App\Biz\%s%s\Service\Impl\%sServiceImpl';
 
     public function getVersion(string $appointVersion = ''): string
     {
@@ -58,6 +56,7 @@ class BizImpl implements Biz
         return strtolower($appointVersion);
     }
 
+    /* @phpstan-ignore-next-line */
     public function getService(string $serviceName, string $version = '')
     {
         $version = $this->getVersion($version);
@@ -75,6 +74,7 @@ class BizImpl implements Biz
 
     public function getRedis(string $poolName = 'default'): Redis
     {
+        /* @phpstan-ignore-next-line */
         return ApplicationContext::getContainer()->get(RedisFactory::class)->get($poolName);
     }
 
@@ -91,8 +91,10 @@ class BizImpl implements Biz
 
         $handlerStack = HandlerStack::create($handler);
         if ($grayLog) {
+            /* @phpstan-ignore-next-line */
             $log = Middleware::log($this->container->get(LoggerFactory::class)->get('guzzle'), new MessageFormatter(MessageFormatter::CLF));
         } else {
+            /* @phpstan-ignore-next-line */
             $log = \GuzzleHttp\Middleware::log($this->container->get(LoggerFactory::class)->get('guzzle'), new MessageFormatter(MessageFormatter::CLF));
         }
         $handlerStack->push($log);

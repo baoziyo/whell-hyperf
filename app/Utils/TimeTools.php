@@ -25,7 +25,7 @@ class TimeTools extends App
     }
 
     // 获取传入的开始时间+天数
-    public static function getIntervalEveryDay($startTime, $day = 1)
+    public static function getIntervalEveryDay($startTime, $day = 1): array
     {
         $startTime = Carbon::parse(is_numeric($startTime) ? (int) $startTime : $startTime)->tz(Carbon::now()->tz)->startOfDay();
         $endTime = Carbon::parse($startTime)->tz(Carbon::now()->tz)->addDays($day - 1);
@@ -38,7 +38,7 @@ class TimeTools extends App
     }
 
     // 根据旧的开始时间-结束时间和新的开始时间到结束时间生成缺少的时间
-    public static function generateStartAndEndByInterval(array $oldTimes, array $newTimes)
+    public static function generateStartAndEndByInterval(array $oldTimes, array $newTimes): array
     {
         foreach ($oldTimes as &$oldTime) {
             $oldTime = self::timeToTimeNumber($oldTime);
@@ -70,7 +70,7 @@ class TimeTools extends App
     }
 
     // 判断传入的时间是否时连续的
-    public static function judgeTimeIsContinuous($times, $day)
+    public static function judgeTimeIsContinuous($times, $day): bool
     {
         $newTimes = self::getIntervalEveryDay(min($times), $day);
 

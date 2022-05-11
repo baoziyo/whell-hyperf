@@ -22,15 +22,9 @@ use BadMethodCallException;
  */
 class ResponseFilterAnnotations
 {
-    /**
-     * @var string
-     */
-    private $class = '';
+    private string $class = '';
 
-    /**
-     * @var string
-     */
-    private $mode = 'simple';
+    private string $mode = 'simple';
 
     public function __construct(array $data)
     {

@@ -11,4 +11,7 @@ namespace App\Biz\Queue\Config;
 
 interface QueueStrategy
 {
+    public function beforeSendValidateQueue(): bool;
+
+    public function producer(string $sendTypes, string $templateType, array $params = [], int $delay = 0): bool;
 }

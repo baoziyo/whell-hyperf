@@ -51,7 +51,7 @@ class Jwt implements TokenStrategy
         ];
     }
 
-    public function refreshToken($refreshToken): array
+    public function refreshToken(string $refreshToken): array
     {
         $this->checkConfig();
         $info = $this->encode($refreshToken);
@@ -62,7 +62,7 @@ class Jwt implements TokenStrategy
     public function validate(RequestInterface $request): array
     {
         $this->checkConfig();
-        $token = $request->getHeaderLine('Token', '');
+        $token = $request->getHeaderLine('Token');
         if (empty($token)) {
             throw new TokenException(TokenException::TOKEN_EMPTY);
         }
@@ -77,7 +77,7 @@ class Jwt implements TokenStrategy
         }
     }
 
-    private function encode($token): array
+    private function encode(string $token): array
     {
         try {
             FirebaseJwt::$leeway = self::LEEWAY;

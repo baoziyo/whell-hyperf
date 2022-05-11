@@ -44,7 +44,7 @@ class UserServiceImpl extends BaseServiceImpl implements UserService
         return $registerUser;
     }
 
-    private function getUserSourceStrategy($type): UserSourceStrategy
+    private function getUserSourceStrategy(string $type): UserSourceStrategy
     {
         if (! isset(self::USER_SOURCE_STRATEGY_TYPE[$type])) {
             throw new UserException(UserException::TOKEN_TYPE_ERROR);

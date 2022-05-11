@@ -20,9 +20,12 @@ interface BaseService
 
     public const FAILED = 'failed';
 
+    /* @phpstan-ignore-next-line */
     public function create(array $params);
 
+    /* @phpstan-ignore-next-line */
     public function getByCache(int $id);
 
+    /* @phpstan-ignore-next-line */
     public function findByCache(array $ids);
 }

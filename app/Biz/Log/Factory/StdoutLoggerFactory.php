@@ -11,10 +11,11 @@ namespace App\Biz\Log\Factory;
 
 use Hyperf\Contract\ContainerInterface;
 use Hyperf\Logger\LoggerFactory;
+use Psr\Log\LoggerInterface;
 
 class StdoutLoggerFactory
 {
-    public function __invoke(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container): LoggerInterface
     {
         return $container->get(LoggerFactory::class)->get('system');
     }

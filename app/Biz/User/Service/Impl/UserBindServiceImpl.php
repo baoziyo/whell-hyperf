@@ -19,7 +19,7 @@ class UserBindServiceImpl extends BaseServiceImpl implements UserBindService
 
     public function createOrUpdate(array $params, string $fromKey): bool
     {
-        $userBindExists = UserBindDaoImpl::where('fromId', $params['fromId'])->exists();
+        $userBindExists = UserBindDaoImpl::query()->where('fromId', $params['fromId'])->exists();
         if ($userBindExists) {
             UserBindDaoImpl::query()->where('fromId', $params['fromId'])->update(['fromKey' => $fromKey]);
             return true;
@@ -31,7 +31,7 @@ class UserBindServiceImpl extends BaseServiceImpl implements UserBindService
 
     public function getFromIdByUserIdAndType(int $userId, string $type): string
     {
-        return UserBindDaoImpl::where([
+        return UserBindDaoImpl::query()->where([
             'userId' => $userId,
             'type' => $type,
         ])->value('fromId');

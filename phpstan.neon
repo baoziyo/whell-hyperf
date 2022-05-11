@@ -9,3 +9,10 @@ parameters:
   ignoreErrors:
     - '#Static call to instance method Hyperf\\HttpServer\\Router\\Router::[a-zA-Z0-9\\_]+\(\)#'
     - '#Static call to instance method Hyperf\\DbConnection\\Db::[a-zA-Z0-9\\_]+\(\)#'
+    - '#Property [a-zA-Z0-9\:\(\)\_\$\\]+ type has no value type specified in iterable type array\.#'
+    - '#Method [a-zA-Z0-9\:\(\)\_\\]+ has parameter \$[a-zA-Z0-9\:\(\)\_\\]+ with no value type specified in iterable type array\.#'
+    - '#Method [a-zA-Z0-9\:\(\)\_\\]+ return type has no value type specified in iterable type array\.#'
+    - '#Class App\\Biz\\Guzzle\\Formatter\\MessageFormatter extends \@final class GuzzleHttp\\MessageFormatter\.#'
+    - '#Property App\\Biz\\[a-zA-Z0-9\:\(\)\_\\]+\\Service\\Impl\\[a-zA-Z0-9\:\(\)\_\\]+ServiceImpl::\$dao has no type specified\.#'
+  excludePaths:
+    - 'runtime/container/*'

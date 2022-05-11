@@ -25,7 +25,7 @@ class CharsTools extends App
         shuffle($chars);
         $output = '';
         for ($i = 0; $i < $len; ++$i) {
-            $output .= $chars[mt_rand(0, $charsLen)];
+            $output .= $chars[random_int(0, $charsLen)];
         }
 
         return $output;

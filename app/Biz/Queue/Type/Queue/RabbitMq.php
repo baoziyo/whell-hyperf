@@ -10,10 +10,11 @@ declare(strict_types=1);
 namespace App\Biz\Queue\Type\Queue;
 
 use App\Biz\Queue\Service\QueueService;
+use Hyperf\Amqp\Message\ProducerMessageInterface;
 
 class RabbitMq extends Config
 {
-    protected $queueType = QueueService::QUEUE_TYPE_RABBITMQ;
+    protected string $queueType = QueueService::QUEUE_TYPE_RABBITMQ;
 
     public function beforeSendValidateQueue(): bool
     {
@@ -22,6 +23,8 @@ class RabbitMq extends Config
 
     public function producer(string $sendTypes, string $templateType, array $params = [], int $delay = 0): bool
     {
-        return $this->biz->getAmqp()->produce(new $templateType($params));
+        /** @var ProducerMessageInterface $obj */
+        $obj = new $templateType($params);
+        return $this->biz->getAmqp()->produce($obj);
     }
 }

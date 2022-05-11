@@ -20,16 +20,15 @@ abstract class BaseConsumer extends ConsumerMessage
 {
     /**
      * @Inject
-     * @var Biz
      */
-    protected $biz;
+    protected Biz $biz;
 
     /**
-     * @param $data
      * @return array[id,failUserIds,failDetails,...]
      */
-    abstract public function handle($data, AMQPMessage $message): array;
+    abstract public function handle(array $data, AMQPMessage $message): array;
 
+    /* @phpstan-ignore-next-line */
     public function consumeMessage($data, AMQPMessage $message): string
     {
         try {

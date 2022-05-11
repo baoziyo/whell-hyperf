@@ -10,10 +10,11 @@ namespace App\Controller\Api\User;
 
 use App\Biz\User\Service\UserService;
 use App\Controller\AbstractController;
+use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 
 class RegisterController extends AbstractController
 {
-    public function post()
+    public function post(): PsrResponseInterface
     {
         $params = $this->request->post();
         $response = $this->getUserService()->register($params);

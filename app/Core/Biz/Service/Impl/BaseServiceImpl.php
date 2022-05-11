@@ -20,6 +20,7 @@ class BaseServiceImpl implements BaseService
 
     protected ContainerInterface $container;
 
+    /* @phpstan-ignore-next-line */
     protected $dao;
 
     public function __construct(ContainerInterface $container, Biz $biz)
@@ -28,21 +29,27 @@ class BaseServiceImpl implements BaseService
         $this->container = $container;
     }
 
+    /* @phpstan-ignore-next-line */
     public function create(array $params)
     {
         $dao = new $this->dao();
+        /* @phpstan-ignore-next-line */
         $params = ArrayTools::parts($params, $dao->getFillable());
+        /* @phpstan-ignore-next-line */
         $dao->fill($params);
+        /* @phpstan-ignore-next-line */
         $dao->save();
 
         return $dao;
     }
 
+    /* @phpstan-ignore-next-line */
     public function getByCache(int $id)
     {
         return $this->dao::findFromCache($id);
     }
 
+    /* @phpstan-ignore-next-line */
     public function findByCache(array $ids)
     {
         return $this->dao::findManyFromCache($ids);

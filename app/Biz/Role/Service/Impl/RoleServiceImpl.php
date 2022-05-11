@@ -24,7 +24,7 @@ class RoleServiceImpl extends BaseServiceImpl implements RoleService
         /** @var RoleDaoImpl $role */
         $role = RoleDaoImpl::findFromCache($id);
 
-        if (! $role || ! $role->exists) {
+        if (! $role->exists) {
             throw new RoleException(RoleException::NOT_FOUND);
         }
 

@@ -20,8 +20,7 @@ abstract class BaseMailTemplate
     protected Biz $biz;
 
     /**
-     * @param $params
      * @return array[id,failUserIds,failDetails,...]
      */
-    abstract public function handle($params): array;
+    abstract public function handle(array $params): array;
 }

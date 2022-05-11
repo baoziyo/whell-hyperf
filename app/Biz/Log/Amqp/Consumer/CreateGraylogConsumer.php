@@ -24,9 +24,8 @@ class CreateGraylogConsumer extends BaseConsumer
 {
     /**
      * @Retry(base=1000, maxAttempts=3)
-     * @param $data
      */
-    public function handle($data, AMQPMessage $message): string
+    public function handle(string $data, AMQPMessage $message): string
     {
         $data = Json::decode($data);
 

@@ -26,17 +26,15 @@ class ErrorExceptionHandler extends ExceptionHandler
 {
     /**
      * @Inject
-     * @var RequestInterface
      */
-    protected $request;
+    protected RequestInterface $request;
 
     /**
      * @Inject
-     * @var Biz
      */
-    protected $biz;
+    protected Biz $biz;
 
-    public function handle(\Throwable $throwable, ResponseInterface $response)
+    public function handle(\Throwable $throwable, ResponseInterface $response): ResponseInterface
     {
         $this->biz->getService('Log:Log')->requestLog($this->request, $response, [
             'file' => $throwable->getFile(),
@@ -60,7 +58,7 @@ class ErrorExceptionHandler extends ExceptionHandler
         $this->stopPropagation();
 
         $status = substr((string) $throwable->getCode(), 0, 3);
-        $status = $status <= 0 ? 500 : $status;
+        $status = $status <= 0 ? 500 : (int) $status;
 
         return $response->withStatus($status)->withAddedHeader('Content-Type', 'application/json')->withBody(new SwooleStream($data));
     }

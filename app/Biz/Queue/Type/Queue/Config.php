@@ -16,11 +16,10 @@ abstract class Config implements QueueStrategy
 {
     /**
      * @Inject
-     * @var Biz
      */
-    protected $biz;
+    protected Biz $biz;
 
-    protected $queueType;
+    protected string $queueType = '';
 
     abstract public function beforeSendValidateQueue(): bool;
 

@@ -30,26 +30,23 @@ abstract class Filter
      */
     public const COMPLEX_MODE = 'complex';
 
-    /**
-     * @var Biz
-     */
-    protected $biz;
+    protected Biz $biz;
 
-    protected $mode = self::SIMPLE_MODE;
+    protected string $mode = self::SIMPLE_MODE;
 
-    protected $fieldsName = 'fields';
+    protected string $fieldsName = 'fields';
 
     public function __construct(Biz $biz)
     {
         $this->biz = $biz;
     }
 
-    public function setMode($mode): void
+    public function setMode(string $mode): void
     {
         $this->mode = $mode;
     }
 
-    public function filter($json): string
+    public function filter(string $json): string
     {
         $data = Json::decode($json);
 
@@ -64,17 +61,17 @@ abstract class Filter
         return Json::encode($data);
     }
 
-    protected function simpleFields($data): array
+    protected function simpleFields(array $data): array
     {
         return $data;
     }
 
-    protected function complexFields($data): array
+    protected function complexFields(array $data): array
     {
         return $data;
     }
 
-    private function simple($data): array
+    private function simple(array $data): array
     {
         $property = $this->mode . 'Fields';
         if (property_exists($this, $this->fieldsName) && $this->{$this->fieldsName}) {
@@ -88,7 +85,7 @@ abstract class Filter
         return $data;
     }
 
-    private function complex($data): array
+    private function complex(array $data): array
     {
         $property = $this->mode . 'Fields';
         if (property_exists($this, $this->fieldsName) && $this->{$this->fieldsName}) {

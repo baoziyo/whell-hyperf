@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace App\Biz\Log\Service;
 
+use Hyperf\HttpServer\Contract\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
@@ -37,25 +39,25 @@ interface LogService extends LoggerInterface
         LogLevel::DEBUG => 7,
     ];
 
-    public function emergency($message, array $context = [], $sendGaryLog = true): void;
+    public function emergency($message, array $context = [], bool $sendGaryLog = true): void;
 
-    public function alert($message, array $context = [], $sendGaryLog = true): void;
+    public function alert($message, array $context = [], bool $sendGaryLog = true): void;
 
-    public function critical($message, array $context = [], $sendGaryLog = true): void;
+    public function critical($message, array $context = [], bool $sendGaryLog = true): void;
 
-    public function error($message, array $context = [], $sendGaryLog = true): void;
+    public function error($message, array $context = [], bool $sendGaryLog = true): void;
 
-    public function warning($message, array $context = [], $sendGaryLog = true): void;
+    public function warning($message, array $context = [], bool $sendGaryLog = true): void;
 
-    public function notice($message, array $context = [], $sendGaryLog = true): void;
+    public function notice($message, array $context = [], bool $sendGaryLog = true): void;
 
-    public function info($message, array $context = [], $sendGaryLog = true): void;
+    public function info($message, array $context = [], bool $sendGaryLog = true): void;
 
-    public function debug($message, array $context = [], $sendGaryLog = true): void;
+    public function debug($message, array $context = [], bool $sendGaryLog = true): void;
 
-    public function log($level, $message, array $context = [], $sendGaryLog = true): void;
+    public function log($level, $message, array $context = [], bool $sendGaryLog = true): void;
 
-    public function requestLog($request, $response, $responseText = []): void;
+    public function requestLog(RequestInterface $request, ResponseInterface $response, array $responseText = []): void;
 
-    public function createGraylog($level, $message, array $context = []): void;
+    public function createGraylog(string $level, string $message, array $context = []): void;
 }

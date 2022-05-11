@@ -18,7 +18,7 @@ use Hyperf\Utils\Codec\Json;
  */
 class CreateGraylogProducer extends BaseProducer
 {
-    public function __construct($level, $message, $context)
+    public function __construct(string $level, string $message, array $context)
     {
         $this->payload = Json::encode([
             'level' => $level,

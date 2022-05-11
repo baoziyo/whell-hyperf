@@ -18,9 +18,11 @@ use App\Biz\Log\Amqp\Producer\CreateGraylogProducer;
 use App\Biz\Log\Service\LogService;
 use App\Core\Biz\Container\Biz;
 use App\Core\Biz\Service\Impl\BaseServiceImpl;
+use Hyperf\HttpServer\Contract\RequestInterface;
 use Hyperf\Logger\LoggerFactory;
 use Hyperf\Utils\Codec\Json;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 
@@ -32,58 +34,60 @@ class LogServiceImpl extends BaseServiceImpl implements LogService
 
     protected ContainerInterface $container;
 
-    public function emergency($message, $context = [], $sendGaryLog = true): void
+    public function emergency($message, array $context = [], bool $sendGaryLog = true): void
     {
         $this->log(LogLevel::EMERGENCY, $message, $context, $sendGaryLog);
     }
 
-    public function alert($message, $context = [], $sendGaryLog = true): void
+    public function alert($message, array $context = [], bool $sendGaryLog = true): void
     {
         $this->log(LogLevel::ALERT, $message, $context, $sendGaryLog);
     }
 
-    public function critical($message, $context = [], $sendGaryLog = true): void
+    public function critical($message, array $context = [], bool $sendGaryLog = true): void
     {
         $this->log(LogLevel::CRITICAL, $message, $context, $sendGaryLog);
     }
 
-    public function error($message, $context = [], $sendGaryLog = true): void
+    public function error($message, array $context = [], bool $sendGaryLog = true): void
     {
         $this->log(LogLevel::ERROR, $message, $context, $sendGaryLog);
     }
 
-    public function warning($message, $context = [], $sendGaryLog = true): void
+    public function warning($message, array $context = [], bool $sendGaryLog = true): void
     {
         $this->log(LogLevel::WARNING, $message, $context, $sendGaryLog);
     }
 
-    public function notice($message, $context = [], $sendGaryLog = true): void
+    public function notice($message, array $context = [], bool $sendGaryLog = true): void
     {
         $this->log(LogLevel::NOTICE, $message, $context, $sendGaryLog);
     }
 
-    public function info($message, $context = [], $sendGaryLog = true): void
+    public function info($message, array $context = [], bool $sendGaryLog = true): void
     {
         $this->log(LogLevel::INFO, $message, $context, $sendGaryLog);
     }
 
-    public function debug($message, $context = [], $sendGaryLog = true): void
+    public function debug($message, array $context = [], bool $sendGaryLog = true): void
     {
         $this->log(LogLevel::DEBUG, $message, $context, $sendGaryLog);
     }
 
-    public function log($level, $message, $context = [], $sendGaryLog = true): void
+    public function log($level, $message, array $context = [], bool $sendGaryLog = true): void
     {
+        /* @phpstan-ignore-next-line */
         $this->logger = $this->container->get(LoggerFactory::class)->get(env('APP_NAME'));
         $this->logger->log($level, $message, $context);
 
         if ($sendGaryLog && env('GRAYLOG', false)) {
+            /* @phpstan-ignore-next-line */
             $message = new CreateGraylogProducer($level, $message, $context);
             $this->biz->getAmqp()->produce($message);
         }
     }
 
-    public function requestLog($request, $response, $responseText = []): void
+    public function requestLog(RequestInterface $request, ResponseInterface $response, array $responseText = []): void
     {
         $text = PHP_EOL . 'url:' . $request->getMethod() . '->' . $request->url() . PHP_EOL;
         $text .= 'serverParams:' . Json::encode($request->getServerParams()) . PHP_EOL;
@@ -108,7 +112,7 @@ class LogServiceImpl extends BaseServiceImpl implements LogService
         $this->info($text, $responseText);
     }
 
-    public function createGraylog($level, $message, array $context = []): void
+    public function createGraylog(string $level, string $message, array $context = []): void
     {
         if (env('GRAYLOG', false)) {
             $this->biz->getClient([], false)->post(env('GRAYLOG_DOMAIN', 'http://127.0.0.1') . ':' . env('GRAYLOG_PORT', 12201) . '/gelf', [

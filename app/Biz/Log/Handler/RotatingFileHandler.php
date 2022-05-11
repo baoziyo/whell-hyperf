@@ -17,18 +17,18 @@ use Monolog\Utils;
 
 class RotatingFileHandler extends \Monolog\Handler\RotatingFileHandler
 {
-    protected $filenameConfig;
+    protected string $filenameConfig;
 
     /**
      * @Inject
-     * @var ConfigInterface
      */
-    protected $config;
+    protected ConfigInterface $config;
 
     public function __construct(string $filename, int $maxFiles = 0, $level = Logger::DEBUG, bool $bubble = true, ?int $filePermission = null, bool $useLocking = false)
     {
         parent::__construct($filename);
 
+        $this->bubble = $bubble;
         $this->filenameConfig = $filename;
         $this->filename = Utils::canonicalizePath($filename);
         $this->maxFiles = $maxFiles;
@@ -41,13 +41,14 @@ class RotatingFileHandler extends \Monolog\Handler\RotatingFileHandler
 
         $this->setLevel($level);
 
+        /* @phpstan-ignore-next-line */
         if (is_resource($this->getTimedFilename())) {
             $this->stream = $this->getTimedFilename();
         } elseif (is_string($this->getTimedFilename())) {
             $this->url = Utils::canonicalizePath($this->getTimedFilename());
-        } else {
-            throw new \InvalidArgumentException('A stream must either be a resource or a string.');
         }
+
+        throw new \InvalidArgumentException('A stream must either be a resource or a string.');
     }
 
     /**
@@ -112,17 +113,20 @@ class RotatingFileHandler extends \Monolog\Handler\RotatingFileHandler
         }
 
         $logFiles = glob($this->getGlobPattern());
+        /* @phpstan-ignore-next-line */
         if ($this->maxFiles >= count($logFiles)) {
             // no files to remove
             return;
         }
 
         // Sorting the files by name to remove the older ones
-        usort($logFiles, function ($a, $b) {
+        /* @phpstan-ignore-next-line */
+        usort($logFiles, static function ($a, $b) {
             return strcmp($b, $a);
         });
 
         $dirs = [];
+        /* @phpstan-ignore-next-line */
         foreach ($logFiles as $file) {
             $dirs[] = pathinfo($file)['dirname'];
         }
@@ -130,15 +134,14 @@ class RotatingFileHandler extends \Monolog\Handler\RotatingFileHandler
 
         foreach (array_slice($dirs, $this->maxFiles) as $dir) {
             $files = glob($dir . '/*');
+            /* @phpstan-ignore-next-line */
             foreach ($files as $file) {
                 if (is_writable($file)) {
                     // suppress errors here as unlink() might fail if two processes
                     // are cleaning up/rotating at the same time
-                    set_error_handler(function (int $errno, string $errstr, string $errfile, int $errline): bool {
-                        return false;
-                    });
                     unlink($file);
                     $path = pathinfo($file);
+                    /* @phpstan-ignore-next-line */
                     if (count(glob($path['dirname'] . '/*')) === 0) {
                         rmdir($path['dirname']);
                     }
@@ -150,10 +153,11 @@ class RotatingFileHandler extends \Monolog\Handler\RotatingFileHandler
         $this->mustRotate = false;
     }
 
-    private function filterSystemLevel($record)
+    private function filterSystemLevel(array $record): bool
     {
         if (isset($record['channel']) && $record['channel'] === 'system') {
             $levelConfig = $this->config->get(StdoutLoggerInterface::class, ['log_level' => []]);
+            /* @phpstan-ignore-next-line */
             if (! in_array(strtolower($record['level_name']), $levelConfig['log_level'], true)) {
                 return false;
             }

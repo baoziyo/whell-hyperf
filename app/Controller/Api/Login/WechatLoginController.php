@@ -11,10 +11,11 @@ namespace App\Controller\Api\Login;
 
 use App\Biz\Wechat\Service\WechatService;
 use App\Controller\AbstractController;
+use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
 
 class WechatLoginController extends AbstractController
 {
-    public function post()
+    public function post(): PsrResponseInterface
     {
         $code = $this->request->post('code', '');
 

@@ -22,6 +22,7 @@ class QueueServiceImpl extends BaseServiceImpl implements QueueService
 {
     protected $dao = QueueDaoImpl::class;
 
+    /* @phpstan-ignore-next-line */
     public function send(string $queueType, array $sendTypes, string $templateType, array $userIds = [], array $params = [], int $delay = 0)
     {
         $sendFails = [];
@@ -58,7 +59,7 @@ class QueueServiceImpl extends BaseServiceImpl implements QueueService
     {
         /** @var QueueDaoImpl $queue */
         $queue = $this->getByCache($id);
-        if ($queue === null) {
+        if (! $queue->exists) {
             throw new QueueException(QueueException::NOT_FUND_QUEUE_JOB, null, null, [$id]);
         }
 
@@ -105,7 +106,7 @@ class QueueServiceImpl extends BaseServiceImpl implements QueueService
     {
         /** @var QueueDaoImpl $queue */
         $queue = $this->getByCache($id);
-        if ($queue === null) {
+        if (! $queue->exists) {
             throw new QueueException(QueueException::NOT_FUND_QUEUE_JOB, null, null, [$id]);
         }
 
@@ -121,7 +122,7 @@ class QueueServiceImpl extends BaseServiceImpl implements QueueService
         $queue = $this->getByCache($id);
         /** @var QueueFailDaoImpl $queueFail */
         $queueFail = QueueFailDaoImpl::getByCache($id);
-        if ($queue && $queueFail) {
+        if ($queue->exists && $queueFail->exists) {
             return array_diff($queue->sendUserIds, $queueFail->failUserIds);
         }
 

@@ -34,14 +34,15 @@ class QueueMysqlServiceImpl extends BaseServiceImpl implements QueueMysqlService
 
     public function consumer(): bool
     {
-        $queueMysqlLists = QueueMysqlDaoImpl::where('sendTime', '<=', time())->get();
+        $queueMysqlLists = QueueMysqlDaoImpl::query()->where('sendTime', '<=', time())->get();
         if ($queueMysqlLists->isEmpty()) {
             return true;
         }
 
         $queueMysqlLists->map(function ($queueMysqlList) {
+            /** @var QueueMysqlDaoImpl $queueMysqlList */
             /** @var QueueDaoImpl $queue */
-            $queue = $this->getQueueService()->getByCache($queueMysqlList['id']);
+            $queue = $this->getQueueService()->getByCache($queueMysqlList->id);
             if ($queue !== null) {
                 /** @var BaseMailTemplate $template */
                 $template = new $queue->template();
@@ -69,14 +70,15 @@ class QueueMysqlServiceImpl extends BaseServiceImpl implements QueueMysqlService
 
     protected function failed(int $id): void
     {
+        /** @var QueueMysqlDaoImpl $queueMysql */
         $queueMysql = QueueMysqlDaoImpl::getByCache($id);
-        if (! $queueMysql || $queueMysql->exists) {
+        if (! $queueMysql->exists) {
             return;
         }
 
         /** @var QueueFailDaoImpl $queueFail */
         $queueFail = QueueFailDaoImpl::getByCache($id);
-        if (! $queueFail || $queueFail->exists) {
+        if (! $queueFail->exists) {
             return;
         }
 
@@ -89,8 +91,9 @@ class QueueMysqlServiceImpl extends BaseServiceImpl implements QueueMysqlService
 
     protected function finished(int $id): void
     {
+        /** @var QueueMysqlDaoImpl $queueMysql */
         $queueMysql = QueueMysqlDaoImpl::getByCache($id);
-        if (! $queueMysql || $queueMysql->exists) {
+        if (! $queueMysql->exists) {
             return;
         }
 

@@ -9,34 +9,36 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use Psr\Http\Message\ResponseInterface as PsrResponseInterface;
+
 class TestController extends AbstractController
 {
-    public function get()
+    public function get(): PsrResponseInterface
     {
         return $this->buildRequest('hello world!');
     }
 
-    public function search()
+    public function search(): PsrResponseInterface
     {
         return $this->buildRequest('hello world!');
     }
 
-    public function create()
+    public function create(): PsrResponseInterface
     {
         return $this->buildRequest('hello world!');
     }
 
-    public function update()
+    public function update(): PsrResponseInterface
     {
         return $this->buildRequest('hello world!');
     }
 
-    public function patch()
+    public function patch(): PsrResponseInterface
     {
         return $this->buildRequest('hello world!');
     }
 
-    public function delete()
+    public function delete(): PsrResponseInterface
     {
         return $this->buildRequest('hello world!');
     }

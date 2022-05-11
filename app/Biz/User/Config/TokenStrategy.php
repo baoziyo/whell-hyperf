@@ -19,7 +19,7 @@ interface TokenStrategy
 
     public function generateToken(array $params = []): array;
 
-    public function refreshToken($refreshToken): array;
+    public function refreshToken(string $refreshToken): array;
 
     public function validate(RequestInterface $request): array;
 }
