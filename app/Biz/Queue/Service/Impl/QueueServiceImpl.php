@@ -59,7 +59,7 @@ class QueueServiceImpl extends BaseServiceImpl implements QueueService
     {
         /** @var QueueDaoImpl $queue */
         $queue = $this->getByCache($id);
-        if (! $queue->exists) {
+        if ($queue === null) {
             throw new QueueException(QueueException::NOT_FUND_QUEUE_JOB, null, null, [$id]);
         }
 
@@ -70,7 +70,7 @@ class QueueServiceImpl extends BaseServiceImpl implements QueueService
         $queue->fill(['status' => parent::FAILED]);
 
         $queueFailId = QueueFailDaoImpl::query()->where('targetId', $id)->value('id');
-        if ($queueFailId === '') {
+        if ($queueFailId !== null) {
             $queueFail = new QueueFailDaoImpl();
             $queueFail->fill([
                 'id' => $id,
@@ -106,7 +106,7 @@ class QueueServiceImpl extends BaseServiceImpl implements QueueService
     {
         /** @var QueueDaoImpl $queue */
         $queue = $this->getByCache($id);
-        if (! $queue->exists) {
+        if ($queue === null) {
             throw new QueueException(QueueException::NOT_FUND_QUEUE_JOB, null, null, [$id]);
         }
 
@@ -118,11 +118,11 @@ class QueueServiceImpl extends BaseServiceImpl implements QueueService
 
     public function getNotSendUserIds(int $id): array
     {
-        /** @var QueueDaoImpl $queue */
+        /** @var null|QueueDaoImpl $queue */
         $queue = $this->getByCache($id);
-        /** @var QueueFailDaoImpl $queueFail */
+        /** @var null|QueueFailDaoImpl $queueFail */
         $queueFail = QueueFailDaoImpl::getByCache($id);
-        if ($queue->exists && $queueFail->exists) {
+        if ($queue !== null && $queueFail !== null) {
             return array_diff($queue->sendUserIds, $queueFail->failUserIds);
         }
 

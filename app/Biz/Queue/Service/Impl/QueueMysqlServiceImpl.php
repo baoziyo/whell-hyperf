@@ -72,13 +72,13 @@ class QueueMysqlServiceImpl extends BaseServiceImpl implements QueueMysqlService
     {
         /** @var QueueMysqlDaoImpl $queueMysql */
         $queueMysql = QueueMysqlDaoImpl::getByCache($id);
-        if (! $queueMysql->exists) {
+        if ($queueMysql === null) {
             return;
         }
 
         /** @var QueueFailDaoImpl $queueFail */
         $queueFail = QueueFailDaoImpl::getByCache($id);
-        if (! $queueFail->exists) {
+        if ($queueFail === null) {
             return;
         }
 
@@ -93,7 +93,7 @@ class QueueMysqlServiceImpl extends BaseServiceImpl implements QueueMysqlService
     {
         /** @var QueueMysqlDaoImpl $queueMysql */
         $queueMysql = QueueMysqlDaoImpl::getByCache($id);
-        if (! $queueMysql->exists) {
+        if ($queueMysql === null) {
             return;
         }
 

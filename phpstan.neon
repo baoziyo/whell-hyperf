@@ -14,5 +14,6 @@ parameters:
     - '#Method [a-zA-Z0-9\:\(\)\_\\]+ return type has no value type specified in iterable type array\.#'
     - '#Class App\\Biz\\Guzzle\\Formatter\\MessageFormatter extends \@final class GuzzleHttp\\MessageFormatter\.#'
     - '#Property App\\Biz\\[a-zA-Z0-9\:\(\)\_\\]+\\Service\\Impl\\[a-zA-Z0-9\:\(\)\_\\]+ServiceImpl::\$dao has no type specified\.#'
+    - '#Strict comparison using \=\=\= between App\\Biz\\[a-zA-Z0-9]+\\Dao\\[a-zA-Z0-9]+DaoImpl and null will always evaluate to false\.#'
   excludePaths:
     - 'runtime/container/*'

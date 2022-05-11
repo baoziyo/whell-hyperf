@@ -60,7 +60,7 @@ class FirewallMiddleware implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        if ($this->checkWhitelists($request->url())) {
+        if (! preg_match('/^\/admin(.*)/', parse_url($request->url())['path']) && $this->checkWhitelists($request->url())) {
             return $handler->handle($request);
         }
 
@@ -86,7 +86,6 @@ class FirewallMiddleware implements MiddlewareInterface
                 if ($this->request->getMethod() === $method
                     && ! empty(parse_url($url)['path'])
                     && preg_match($uri, parse_url($url)['path'])
-                    && preg_match('/^\/admin(.*)/', parse_url($url)['path'])
                 ) {
                     return true;
                 }
